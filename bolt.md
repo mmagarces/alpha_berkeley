@@ -1,27 +1,36 @@
-# In order to run bolt:
+# BOLT Setup Guide
 
-Open 2 terminal windows, and run the following:
+## SSH Port Forwarding Setup
 
+Open 2 terminal windows and run the following commands:
+
+```bash
+# Terminal 1 - Tiled port forwarding
 ssh -N -L 8000:localhost:8000 user@128.3.117.8
+# Password: xray$1300
 
-Password: xray$1300
-
+# Terminal 2 - Queue server port forwarding  
 ssh -N -L 8003:localhost:60610 user@128.3.117.8
+# Password: xray$1300
+```
 
-Password: xray$1300
+## Project Setup
 
-# In your vscode:
-
+```bash
+# Create project directory and clone repository
 mkdir bolt && cd bolt
-
 git clone https://github.com/mmagarces/alpha_berkeley.git
-
 cd alpha_berkeley
 
-create a .env file with your cborg-api key, using the env.example format
+# Create environment file
+# Create a .env file with your cborg-api key, using the env.example format
+```
 
-Here's my config.yml file, just in case as well:
+## Configuration File
 
+Here's the complete `config.yml` file:
+
+```yaml
 # Import framework configuration
 import: src/framework/config.yml
 
@@ -34,7 +43,6 @@ project_root: /Users/magarces/bolt_project/alpha_berkeley
 # Application Configuration (paths are derived by convention)
 # - Config: src/applications/{app}/config.yml  
 # - Registry: src/applications/{app}/registry.py
-
 applications:
   # - als_expert
   #- wind_turbine
@@ -115,7 +123,6 @@ deployed_services:
   # - applications.als_expert.qdrant       # Vector database for semantic search
   # - applications.als_expert.logbook      # ALS electronic logbook integration
   # - applications.als_expert.pv_finder    # Process Variable discovery for EPICS
-  
 
 # Development Configuration
 development:
@@ -174,20 +181,21 @@ api:
       # For container services
       host: localhost # host.containers.internal <_> localhost
       port: 11434
+```
 
-# Here are some notes to running this:
+## Additional Setup Notes
 
-Tiled key = ca6ae384c9f944e1465176b7e7274046b710dc7e2703dc33369f7c900d69bd64
+### Tiled Access
+- **Tiled API Key**: `ca6ae384c9f944e1465176b7e7274046b710dc7e2703dc33369f7c900d69bd64`
+- **Tiled Web Interface**: After running the SSH port forwarding commands above, access Tiled at:
+  ```
+  http://localhost:8000/?api_key=ca6ae384c9f944e1465176b7e7274046b710dc7e2703dc33369f7c900d69bd64
+  ```
 
-After running teh command line arguments at the beginning, you have created a ssh port forwarding, therefore you can access tiled here:
+### Important Configuration Switch
 
-http://localhost:8000/?api_key=ca6ae384c9f944e1465176b7e7274046b710dc7e2703dc33369f7c900d69bd64
+In `src/applications/bolt/bolt_api.py` at lines 68-70, you'll find FASTAPI_URL settings for both `host.docker.internal` and `localhost`:
 
-# IMPORTANT
-
-In src/applications/bolt/bolt_api.py, at line 68 and 70, you will find a FASTAPI_URL for both host.docker.internal and localhost
-
-If you are running the CLI, use localhost and comment out host.docker.internal.
-
-If you are using the webUI, use host.docker.internal and comment out localhost.
+- **For CLI usage**: Use `localhost` and comment out `host.docker.internal`
+- **For WebUI usage**: Use `host.docker.internal` and comment out `localhost`
 
