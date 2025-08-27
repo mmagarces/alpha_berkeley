@@ -49,6 +49,7 @@ class DetectorImageCaptureCapability(BaseCapability):
             # Create context object
             context = CurrentTakeCaptureContext(
                 condition=image_data.condition,
+                message=image_data.message,
                 timestamp=image_data.timestamp
             )
             

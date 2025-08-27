@@ -199,3 +199,13 @@ In `src/applications/bolt/bolt_api.py` at lines 68-70, you'll find FASTAPI_URL s
 - **For CLI usage**: Use `localhost` and comment out `host.docker.internal`
 - **For WebUI usage**: Use `host.docker.internal` and comment out `localhost`
 
+
+
+
+# If you kepe getting -1.0 degree results
+
+Run podman desktop and run the services (compose)
+
+In a terminal, run the following:
+
+podman exec -it pipelines pip install tiled entrypoints stamina

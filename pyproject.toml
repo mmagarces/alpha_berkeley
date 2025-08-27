@@ -102,6 +102,9 @@ scientific = [
     "seaborn",
     "scikit-learn",
     "ipywidgets",
+    "tiled>=0.1.0b36",
+    "entrypoints>=0.4",
+    "stamina>=25.1.0",
 ]
 
 # ALS/EPICS specific dependencies

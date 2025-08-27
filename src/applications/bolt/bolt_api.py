@@ -15,7 +15,7 @@ class CurrentAngleReading:
     """Structured data model for motor angular position readings.
     """
     motor: str
-    angle: float  # We'll be using this as motor angle
+    angle: float  # Final motor angle position
     condition: str
     timestamp: datetime
 
@@ -23,7 +23,7 @@ class CurrentAngleReading:
 class CurrentMoveMotorReading:
     """Structured data model for motor movement operation results."""
     motor: str
-    angle: float  # Final motor angle position
+    angle: float
     condition: str
     timestamp: datetime
 
@@ -31,6 +31,7 @@ class CurrentMoveMotorReading:
 class CurrentTakeCaptureReading:
     """Structured data model for detector image capture results."""
     condition: str
+    message: str
     timestamp: datetime
 
 @dataclass
@@ -65,9 +66,9 @@ class BoltAPI:
     """Motor configuration for BOLT beamline motors."""
 
     #For WebUI Use
-    #FASTAPI_URL = "host.docker.internal"
+    FASTAPI_URL = "host.docker.internal"
 
-    FASTAPI_URL = "localhost"
+    #FASTAPI_URL = "localhost"
     #Working with real data captured from tiled, with a delay to wait if the run is not complete
     def get_current_angle(self, motor: str) -> CurrentAngleReading:
         """Retrieve current angular position of the specified motor."""
@@ -109,7 +110,6 @@ class BoltAPI:
             product = json.loads(result.stdout)
             
             item_uid = (product["item"]["item_uid"])
-            print(item_uid)
             try:
                 current_pos = 0
                 while(current_pos != "run_list"):
@@ -158,7 +158,7 @@ class BoltAPI:
                 print(f"Error: {e}")
             
             from tiled.client import from_uri
-            tiled_server_url = "http://localhost:8000"
+            tiled_server_url = f"http://{self.FASTAPI_URL}:8000"
             tiled_api_key = "ca6ae384c9f944e1465176b7e7274046b710dc7e2703dc33369f7c900d69bd64"
             # Connect to the Tiled server
             tiled_client = from_uri(
@@ -168,7 +168,7 @@ class BoltAPI:
 
             run_data = tiled_client[run_id]
             angle = run_data.metadata['start']['angle_degrees']
-                        
+            print(angle)
             return CurrentAngleReading(
                 motor=motor,
                 angle=float(angle),
@@ -176,13 +176,15 @@ class BoltAPI:
                 timestamp=datetime.now()
             )
         except Exception as e:
+            print(str(e))
             return CurrentAngleReading(
                 motor=motor,
                 angle=-1.0,
                 condition=f"Error: {str(e)}",
                 timestamp=datetime.now()
             )
-
+    
+    #Working with real data captured from tiled, with a delay to wait if the run is not complete, and a confirm success or failure
     def move_motor(self, motor: str, move_amount: str) -> CurrentMoveMotorReading:
         """Move motor to specified position (absolute or relative based on flag).
         """
@@ -223,15 +225,75 @@ class BoltAPI:
 
             result = subprocess.run(cmd, capture_output=True, text=True)
             product = json.loads(result.stdout)
-            
             item_uid = (product["item"]["item_uid"])
-            print(item_uid)
+
+            try:
+                current_pos = 0
+                while(current_pos != "run_list"):
+                    # Test GET method for history
+                    queue_url = f"http://{self.FASTAPI_URL}:8003/api/re/runs/active"
+                    
+                    # Use GET method (not POST)
+                    cmd = [
+                        "curl",
+                        "-X", "GET",  # Changed from POST to GET
+                        queue_url,
+                        "-H", "accept: application/json",
+                        "-H", "Authorization: Apikey test"
+                    ]   
+
+                    result = subprocess.run(cmd, capture_output=True, text=True)
+                    history_data = json.loads(result.stdout)
+                    for item in history_data:
+                        current_pos = item
+                    time.sleep(1)
+
+            except Exception as e:
+                print(f"Error: {e}")
+            
+            try:
+                # Test GET method for history
+                queue_url = f"http://{self.FASTAPI_URL}:8003/api/history/get"
+                
+                # Use GET method (not POST)
+                cmd = [
+                    "curl",
+                    "-X", "GET",  # Changed from POST to GET
+                    queue_url,
+                    "-H", "accept: application/json",
+                    "-H", "Authorization: Apikey test"
+                ]   
+
+                result = subprocess.run(cmd, capture_output=True, text=True)
+                history_data = json.loads(result.stdout)
+                for item in history_data["items"]:
+                    if item["item_uid"] == item_uid:
+                        run_id = (item["result"]["run_uids"][0])
+                        break
+                
+            except Exception as e:
+                print(f"Error: {e}")
+
+            from tiled.client import from_uri
+            tiled_server_url = f"http://{self.FASTAPI_URL}:8000"
+            tiled_api_key = "ca6ae384c9f944e1465176b7e7274046b710dc7e2703dc33369f7c900d69bd64"
+            # Connect to the Tiled server
+            tiled_client = from_uri(
+                tiled_server_url,
+                api_key=tiled_api_key
+            )
+
+            run_data = tiled_client[run_id]
+            result = run_data.metadata['start']['run_result']
+            if (result == "success"):
+                print("Motor movement successful")
             return CurrentMoveMotorReading(
                 motor=motor,
                 angle=float(move_amount),
-                condition="Remote Movement Succeeded",
+                condition=result,
                 timestamp=datetime.now()
             )
+
         except Exception as e:
             print(str(e))
             return CurrentMoveMotorReading(
@@ -272,12 +334,65 @@ class BoltAPI:
             ]
 
             result = subprocess.run(cmd, capture_output=True, text=True)
-            print("Return code:", result.returncode)
-            print("STDOUT:", result.stdout)
-            print("STDERR:", result.stderr)
+            product = json.loads(result.stdout)
+            item_uid = (product["item"]["item_uid"])
+
+            try:
+                count = 0
+                while(count != 2):
+                    # Test GET method for history
+                    queue_url = f"http://{self.FASTAPI_URL}:8003/api/re/runs/active"
+                    
+                    # Use GET method (not POST)
+                    cmd = [
+                        "curl",
+                        "-X", "GET",  # Changed from POST to GET
+                        queue_url,
+                        "-H", "accept: application/json",
+                        "-H", "Authorization: Apikey test"
+                    ]   
+
+                    result = subprocess.run(cmd, capture_output=True, text=True)
+                    history_data = json.loads(result.stdout)
+                    if (len(history_data["run_list"]) == 0):
+                        count += 1
+                    time.sleep(1)
+
+            except Exception as e:
+                print(f"Error: {e}")
+
+
+            try:
+                # Test GET method for history
+                queue_url = f"http://{self.FASTAPI_URL}:8003/api/history/get"
+                
+                # Use GET method (not POST)
+                cmd = [
+                    "curl",
+                    "-X", "GET",  # Changed from POST to GET
+                    queue_url,
+                    "-H", "accept: application/json",
+                    "-H", "Authorization: Apikey test"
+                ]   
+
+                result = subprocess.run(cmd, capture_output=True, text=True)
+                history_data = json.loads(result.stdout)
+
+                for item in history_data["items"]:
+                    if item["item_uid"] == item_uid:
+                        run_id = (item["result"]["run_uids"][1])
+                        break
+            except Exception as e:
+                print(f"Error: {e}")
+
+            print(run_id)
+
+            tiled_api_key = "ca6ae384c9f944e1465176b7e7274046b710dc7e2703dc33369f7c900d69bd64"
+            link = f"http://localhost:8000/ui/browse/" + run_id  + "_" + "?api_key=" + tiled_api_key
 
             return CurrentTakeCaptureReading(
                 condition="Remote Movement Succeeded",
+                message = link,
                 timestamp=datetime.now()
             )
         except Exception as e:

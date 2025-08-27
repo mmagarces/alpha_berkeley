@@ -94,6 +94,7 @@ class CurrentTakeCaptureContext(CapabilityContext):
     
     # Detector image data
     condition: str = Field(description="Image capture status and detector condition")
+    message: str = Field(description="Message from the image capture containing link to image.")
     timestamp: datetime = Field(description="Timestamp when image was captured")
     
     def get_access_details(self, key_name: Optional[str] = None) -> Dict[str, Any]:
@@ -103,14 +104,14 @@ class CurrentTakeCaptureContext(CapabilityContext):
         return {
             "capture_status": self.condition,
             "access_pattern": f"context.{self.CONTEXT_TYPE}.{key_ref}.condition, context.{self.CONTEXT_TYPE}.{key_ref}.timestamp",
-            "example_usage": f"Image captured with status: {{context.{self.CONTEXT_TYPE}.{key_ref}.condition}}",
-            "available_fields": ["condition", "timestamp"]
+            "example_usage": f"Image captured with status: {{context.{self.CONTEXT_TYPE}.{key_ref}.condition}} stored at {self.message}",
+            "available_fields": ["condition", "message", "timestamp"]
         }
     
     def get_human_summary(self, key: str) -> dict:
         """Generate human-readable summary of detector image data."""
         return {
-            "summary": f"Image captured at {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')}"
+            "summary": f"Image captured at {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')}, stored at {self.message}"
         }
     
 class CurrentRunScanContext(CapabilityContext):
