@@ -109,7 +109,7 @@ class BoltAPI:
             product = json.loads(result.stdout)
             
             item_uid = (product["item"]["item_uid"])
-
+            print(item_uid)
             try:
                 current_pos = 0
                 while(current_pos != "run_list"):
@@ -157,7 +157,6 @@ class BoltAPI:
             except Exception as e:
                 print(f"Error: {e}")
             
-
             from tiled.client import from_uri
             tiled_server_url = "http://localhost:8000"
             tiled_api_key = "ca6ae384c9f944e1465176b7e7274046b710dc7e2703dc33369f7c900d69bd64"
@@ -167,7 +166,7 @@ class BoltAPI:
                 api_key=tiled_api_key
             )
 
-            run_data = tiled_client["cd3f4195-1132-4e0d-8cf4-cfb402fee720"]
+            run_data = tiled_client[run_id]
             angle = run_data.metadata['start']['angle_degrees']
                         
             return CurrentAngleReading(
@@ -223,10 +222,10 @@ class BoltAPI:
             ]
 
             result = subprocess.run(cmd, capture_output=True, text=True)
-            print("Return code:", result.returncode)
-            print("STDOUT:", result.stdout)
-            print("STDERR:", result.stderr)
-
+            product = json.loads(result.stdout)
+            
+            item_uid = (product["item"]["item_uid"])
+            print(item_uid)
             return CurrentMoveMotorReading(
                 motor=motor,
                 angle=float(move_amount),

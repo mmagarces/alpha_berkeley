@@ -161,7 +161,7 @@ class MotorPositionSetCapability(BaseCapability):
 - Absolute: "move to 45 degrees" (sets absolute position)
 - Relative: "rotate by 30 degrees" (moves relative to current)
 
-**Output: {registry.context_types.MOTOR_MOVEMENT}**
+**Output: 
 - Contains: motor_id, final_angle, movement_type, timestamp
 - Available for position confirmation and further movements
 

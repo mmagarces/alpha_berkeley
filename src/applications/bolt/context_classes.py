@@ -79,7 +79,7 @@ class CurrentMoveMotorContext(CapabilityContext):
     def get_human_summary(self, key: str) -> dict:
         """Generate human-readable summary of motor movement data."""
         return {
-            "summary": f"Motor {self.motor} successfully moved to {self.angle}° on {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')}"
+            "summary": f"Motor {self.motor} successfully moved to {self.angle}°  (retrieved from Tiled data after executing through the queue serveron {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')})"
         }
 
 class CurrentTakeCaptureContext(CapabilityContext):
