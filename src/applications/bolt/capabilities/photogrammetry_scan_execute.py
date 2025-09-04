@@ -123,6 +123,7 @@ class PhotogrammetryScanExecuteCapability(BaseCapability):
             # Create context object
             context = CurrentRunScanContext(
                 condition=scan_data.condition,
+                message=scan_data.message,
                 timestamp=scan_data.timestamp
             )
             

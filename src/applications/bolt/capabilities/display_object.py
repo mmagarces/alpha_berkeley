@@ -18,38 +18,54 @@ from framework.state import AgentState, StateManager
 from configs.logger import get_logger
 from configs.streaming import get_streamer
 
-from applications.bolt.context_classes import CurrentTakeCaptureContext
+from applications.bolt.context_classes import CurrentDisplayObjectContext
 from applications.bolt.bolt_api import bolt_api
 
 logger = get_logger("bolt", "detector_image_capture")
 registry = get_registry()
 
 @capability_node
-class DetectorImageCaptureCapability(BaseCapability):
-    """Capture single image from area detector in BOLT beamline."""
+class DisplayObjectCapability(BaseCapability):
+    """Display object in BOLT beamline."""
     
     # Required class attributes for registry configuration
-    name = "detector_image_capture"
-    description = "Capture single image from area detector"
-    provides = ["DETECTOR_IMAGE"]
+    name = "display_object"
+    description = "Display object"
+    provides = ["DISPLAY_OBJECT"]
     requires = []
     
     @staticmethod
     async def execute(state: AgentState, **kwargs) -> Dict[str, Any]:
-        """Execute image capture workflow."""
+        """Execute display object workflow."""
         step = StateManager.get_current_step(state)
-        streamer = get_streamer("bolt", "detector_image_capture", state)
+        streamer = get_streamer("bolt", "display_object", state)
         
         try:
-            streamer.status("Preparing detector...")
+            query = StateManager.get_current_task(state).lower()
             
-            streamer.status("Capturing image...")
-            image_data = bolt_api.take_capture()
+            # Extract folder name from query
+            import re
+            
+            # Look for folder name patterns
+            folder_match = re.search(r'in\s+(\S+)', query)
+            if folder_match:
+                folder_name = folder_match.group(1)
+            else:
+                # Extract the last word in the sentence
+                words = query.split()
+                folder_name = words[-1] if words else "."
+            
+            # Remove quotes from folder name if present
+            folder_name = folder_name.strip('"\'')
+            streamer.status("Preparing object...")
+            
+            streamer.status("Displaying object...")
+            image_data = bolt_api.display_object(folder_name)
             
             # Create context object
-            context = CurrentTakeCaptureContext(
+            context = CurrentDisplayObjectContext(
                 condition=image_data.condition,
-                message=image_data.message,
+                msg=image_data.msg,
                 timestamp=image_data.timestamp
             )
             
@@ -61,22 +77,22 @@ class DetectorImageCaptureCapability(BaseCapability):
                 context
             )
             
-            streamer.status("Image captured successfully!")
+            streamer.status("Object displayed successfully!")
             return context_updates
             
         except Exception as e:
-            logger.error(f"Image capture error: {e}")
+            logger.error(f"Display object error: {e}")
             raise
     
     @staticmethod
     def classify_error(exc: Exception, context: dict) -> ErrorClassification:
-        """Classify detector image capture errors for intelligent retry coordination."""
+        """Classify display object errors for intelligent retry coordination."""
 
         if isinstance(exc, (ConnectionError, TimeoutError)):
             return ErrorClassification(
                 severity=ErrorSeverity.RETRIABLE,
                 metadata={
-                    "user_message": "Detector communication timeout, retrying...",
+                    "user_message": "Display object communication timeout, retrying...",
                     "technical_details": str(exc)
                 }
             )
@@ -84,14 +100,14 @@ class DetectorImageCaptureCapability(BaseCapability):
         return ErrorClassification(
             severity=ErrorSeverity.CRITICAL,
             metadata={
-                "user_message": f"Image capture error: {str(exc)}",
+                "user_message": f"Display object error: {str(exc)}",
                 "technical_details": f"Error: {type(exc).__name__}"
             }
         )
     
     @staticmethod
     def get_retry_policy() -> Dict[str, Any]:
-        """Define retry policy configuration for image capture operations."""
+        """Define retry policy configuration for display object operations."""
 
         return {
             "max_attempts": 3,
@@ -100,40 +116,40 @@ class DetectorImageCaptureCapability(BaseCapability):
         }
     
     def _create_orchestrator_guide(self) -> Optional[OrchestratorGuide]:
-        """Provide orchestration guidance for detector image capture in BOLT beamline."""
+        """Provide orchestration guidance for display object in BOLT beamline."""
 
         example = OrchestratorExample(
             step=PlannedStep(
-                context_key="detector_image",
-                capability="detector_image_capture",
-                task_objective="Capture single image from area detector",
-                expected_output=registry.context_types.DETECTOR_IMAGE,
-                success_criteria="Image successfully captured",
+                context_key="display_object",
+                capability="display_object",
+                task_objective="Display object",
+                expected_output=registry.context_types.DISPLAY_OBJECT,
+                success_criteria="Object successfully displayed",
                 inputs=[]
             ),
-            scenario_description="Capturing single image for measurement or quality check",
-            notes=f"Output stored in Tiled. Use for test shots and individual measurements."
+            scenario_description="Displaying object for measurement or quality check",
+            notes=f"Output stored as {registry.context_types.DISPLAY_OBJECT}. Use for test shots and individual measurements."
         )
         
         return OrchestratorGuide(
-            instructions=f"""**When to plan "detector_image_capture" steps:**
+            instructions=f"""**When to plan "display_object" steps:**
 - User asks to take a single image or measurement
 - For test shots before starting photogrammetry scans
 - When checking sample alignment or positioning
 - For quality control and beam verification
 
 **BOLT Beamline Context:**
-- Captures images from area detector
+- Displays object
 - Used for individual measurements and test shots
 - Essential for experimental verification and setup
 
 **Image Types:**
-- Single projection images
+- Object
 - Test shots for alignment
 - Quality control measurements
 
 **Output: Stored in Tiled**
-- Contains: image_data, capture_conditions, timestamp
+- Contains: object_data, display_conditions, timestamp
 - Available for analysis and experimental verification
 
 **Typical Workflow Position:**
@@ -145,33 +161,33 @@ class DetectorImageCaptureCapability(BaseCapability):
         )
     
     def _create_classifier_guide(self) -> Optional[TaskClassifierGuide]:
-        """Provide task classification guidance for detector image capture."""
+        """Provide task classification guidance for display object."""
         return TaskClassifierGuide(
-            instructions="""Determine if the user wants to CAPTURE a single image from the area detector in the BOLT beamline system.
+            instructions="""Determine if the user wants to DISPLAY a single image from the area detector in the BOLT beamline system.
 
 BOLT CONTEXT: This is a beamline where area detectors capture images for analysis. Users may request:
-- Single images for measurement
+- Object
 - Test shots before scans
 - Quality control images
 - Alignment verification images""",
             examples=[
                 ClassifierExample(
-                    query="Take an image",
+                    query="Display object in file",
                     result=True,
                     reason="Direct request for image capture."
                 ),
                 ClassifierExample(
-                    query="Capture a single projection",
+                    query="Display object",
                     result=True,
                     reason="Request for single image capture."
                 ),
                 ClassifierExample(
-                    query="Grab a frame from the detector",
+                    query="Display object",
                     result=True,
                     reason="Request to capture detector image."
                 ),
                 ClassifierExample(
-                    query="Take a test shot",
+                    query="Display object",
                     result=True,
                     reason="Request for test image before experiments."
                 ),

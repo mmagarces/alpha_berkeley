@@ -11,6 +11,7 @@ from .detector_image_capture import DetectorImageCaptureCapability
 from .photogrammetry_scan_execute import PhotogrammetryScanExecuteCapability
 from .reconstruct_object import ReconstructObjectCapability
 from .ply_quality_assessment import PLYQualityAssessmentCapability
+from .display_object import DisplayObjectCapability
 
 __all__ = [
     'MotorPositionReadCapability',
@@ -19,4 +20,5 @@ __all__ = [
     'PhotogrammetryScanExecuteCapability',
     'ReconstructObjectCapability',
     'PLYQualityAssessmentCapability',
+    'DisplayObjectCapability',
 ]

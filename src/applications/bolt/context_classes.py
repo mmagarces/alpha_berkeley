@@ -44,7 +44,7 @@ class CurrentAngleContext(CapabilityContext):
     def get_human_summary(self, key: str) -> dict:
         """Generate human-readable summary of motor position data from Tiled."""
         return {
-            "summary": f"Motor {self.motor} positioned at {self.angle}° (retrieved from Tiled data after executing through the queue serveron {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')})"
+            "summary": f"Motor {self.motor} positioned at {self.angle}° (retrieved from Tiled data after executing through the queue server on {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')})"
         }
     
 class CurrentMoveMotorContext(CapabilityContext):
@@ -105,13 +105,16 @@ class CurrentTakeCaptureContext(CapabilityContext):
             "capture_status": self.condition,
             "access_pattern": f"context.{self.CONTEXT_TYPE}.{key_ref}.condition, context.{self.CONTEXT_TYPE}.{key_ref}.timestamp",
             "example_usage": f"Image captured with status: {{context.{self.CONTEXT_TYPE}.{key_ref}.condition}} stored at {self.message}",
-            "available_fields": ["condition", "message", "timestamp"]
+            "available_fields": ["condition", "message", "timestamp"],
+            "data_source_description": "BOLT beamline area detector image capture"
         }
     
     def get_human_summary(self, key: str) -> dict:
         """Generate human-readable summary of detector image data."""
         return {
-            "summary": f"Image captured at {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')}, stored at {self.message}"
+            "summary": f"Image captured at {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')}, stored at {self.message}",
+            "data_source": "BOLT beamline area detector",
+            "attribution": "Image captured from BOLT beamline area detector"
         }
     
 class CurrentRunScanContext(CapabilityContext):
@@ -126,6 +129,7 @@ class CurrentRunScanContext(CapabilityContext):
 
     # Photogrammetry scan data
     condition: str = Field(description="Scan completion status and experimental condition")
+    message: str = Field(description="Message from the scan containing link to scan.")
     timestamp: datetime = Field(description="Timestamp when scan was completed")
 
     def get_access_details(self, key_name: Optional[str] = None) -> Dict[str, Any]:
@@ -135,14 +139,14 @@ class CurrentRunScanContext(CapabilityContext):
         return {
             "scan_status": self.condition,
             "access_pattern": f"context.{self.CONTEXT_TYPE}.{key_ref}.condition, context.{self.CONTEXT_TYPE}.{key_ref}.timestamp",
-            "example_usage": f"Photogrammetry scan completed with status: {{context.{self.CONTEXT_TYPE}.{key_ref}.condition}}",
-            "available_fields": ["condition", "timestamp"]
+            "example_usage": f"Photogrammetry scan completed with status: {{context.{self.CONTEXT_TYPE}.{key_ref}.condition}} stored at {self.message}",
+            "available_fields": ["condition", "message", "timestamp"]
         }
 
     def get_human_summary(self, key: str) -> dict:
         """Generate human-readable summary of photogrammetry scan data."""
         return {
-            "summary": f"Photogrammetry scan completed at {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')}"
+            "summary": f"Photogrammetry scan completed at {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')}, stored at {self.message}"
         }
 
 class CurrentReconstructObjectContext(CapabilityContext):
@@ -187,6 +191,7 @@ class CurrentPlyQualityContext(CapabilityContext):
     CONTEXT_CATEGORY: ClassVar[str] = "LIVE_DATA"
     # Photogrammetry scan data
     condition: str = Field(description="PLY quality assessment completion status and experimental condition")
+    msg: str = Field(description="Message from the PLY quality assessment")
     timestamp: datetime = Field(description="Timestamp when PLY quality assessment was completed")
 
     def get_access_details(self, key_name: Optional[str] = None) -> Dict[str, Any]:
@@ -197,11 +202,42 @@ class CurrentPlyQualityContext(CapabilityContext):
             "ply_quality_assessment_status": self.condition,
             "access_pattern": f"context.{self.CONTEXT_TYPE}.{key_ref}.condition, context.{self.CONTEXT_TYPE}.{key_ref}.timestamp",
             "example_usage": f"PLY quality assessment completed with status: {{context.{self.CONTEXT_TYPE}.{key_ref}.condition}}",
-            "available_fields": ["condition", "timestamp"]
+            "available_fields": ["condition", "msg", "timestamp"]
         }
 
     def get_human_summary(self, key: str) -> dict:
         """Generate human-readable summary of photogrammetry scan data."""
         return {
-            "summary": f"PLY quality assessment completed at {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')}"
+            "summary": f"PLY quality assessment completed at {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')}, {self.msg}"
+        }
+
+class CurrentDisplayObjectContext(CapabilityContext):
+    """Structured context for display object data from BOLT beamline.
+    
+    Stores information about completed display object including
+    display parameters, execution status, and data collection metadata.
+    """
+
+    CONTEXT_TYPE: ClassVar[str] = "DISPLAY_OBJECT"
+    CONTEXT_CATEGORY: ClassVar[str] = "LIVE_DATA"
+    # Photogrammetry scan data
+    condition: str = Field(description="Display object completion status and experimental condition")
+    msg: str = Field(description="Message from the Display object")
+    timestamp: datetime = Field(description="Timestamp when Display object was completed")
+
+    def get_access_details(self, key_name: Optional[str] = None) -> Dict[str, Any]:
+        """Provide structured access information for LLM consumption and templating."""
+        key_ref = key_name if key_name else "key_name"
+        
+        return {
+            "display_object_status": self.condition,
+            "access_pattern": f"context.{self.CONTEXT_TYPE}.{key_ref}.condition, context.{self.CONTEXT_TYPE}.{key_ref}.timestamp",
+            "example_usage": f"Display object completed with status: {{context.{self.CONTEXT_TYPE}.{key_ref}.condition}}",
+            "available_fields": ["condition", "msg", "timestamp"]
+        }
+
+    def get_human_summary(self, key: str) -> dict:
+        """Generate human-readable summary of display object data."""
+        return {
+            "summary": f"Display object completed at {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')}, {self.msg}"
         }

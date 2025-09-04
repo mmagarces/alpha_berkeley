@@ -48,42 +48,25 @@ class PLYQualityAssessmentCapability(BaseCapability):
             
             query = StateManager.get_current_task(state).lower()
             
-            # Extract PLY file path from query
-            ply_file_path = None
-            
-            # Look for common patterns
+            # Extract folder name from query
             import re
             
-            #You will need to modify all of this since you need to take into account the user doesnt know anything about beamline.
-            #ALSO TILED
-            ply_match = re.search(r'(\S+\.ply)', query)
-            if ply_match:
-                ply_file_path = ply_match.group(1)
+            # Look for folder name patterns
+            folder_match = re.search(r'in\s+(\S+)', query)
+            if folder_match:
+                folder_name = folder_match.group(1)
+            else:
+                # Extract the last word in the sentence
+                words = query.split()
+                folder_name = words[-1] if words else "."
             
-            elif "in " in query:
-                folder_match = re.search(r'in\s+(\S+)', query)
-                if folder_match:
-                    folder_path = Path(folder_match.group(1))
-                    if folder_path.exists():
-                        ply_files = list(folder_path.glob("*.ply"))
-                        if ply_files:
-                            ply_file_path = str(ply_files[0])
-            
-            """
-            if not ply_file_path:
-                raise ValueError("No PLY file path specified and no default file found")
-            
-            if not Path(ply_file_path).exists():
-                raise FileNotFoundError(f"PLY file not found: {ply_file_path}")
-            """
-            #########################################################################################
-            #Won't be exactly ply_file_path, but you will need to modify this.
-            streamer.status(f"Analyzing PLY file: {Path(ply_file_path).name}")
-            
-            scan_data = bolt_api.analyze_ply_quality(ply_file_path)
+            streamer.status(f"Analyzing PLY files in folder: {folder_name}")
+            print(folder_name)
+            scan_data = bolt_api.analyze_ply_quality(folder_name)
 
             context = CurrentPlyQualityContext(
                 condition=scan_data.condition,
+                msg=scan_data.msg,
                 timestamp=scan_data.timestamp
             )
 

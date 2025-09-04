@@ -75,6 +75,14 @@ class BoltRegistryProvider(RegistryConfigProvider):
                     provides=["PLY_QUALITY_ASSESSMENT"],
                     requires=[]
                 ),
+                CapabilityRegistration(
+                    name="display_object",
+                    module_path="applications.bolt.capabilities.display_object",
+                    class_name="DisplayObjectCapability", 
+                    description="Display object",
+                    provides=["DISPLAY_OBJECT"],
+                    requires=[]
+                ),
             ],
             
             context_classes=[
@@ -107,6 +115,11 @@ class BoltRegistryProvider(RegistryConfigProvider):
                     context_type="PLY_QUALITY_ASSESSMENT",
                     module_path="applications.bolt.context_classes", 
                     class_name="CurrentPlyQualityContext"
+                ),
+                ContextClassRegistration(
+                    context_type="DISPLAY_OBJECT",
+                    module_path="applications.bolt.context_classes", 
+                    class_name="CurrentDisplayObjectContext"
                 ),
             ]
         )
