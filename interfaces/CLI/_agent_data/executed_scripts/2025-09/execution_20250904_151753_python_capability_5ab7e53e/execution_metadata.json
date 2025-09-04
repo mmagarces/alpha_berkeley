@@ -1,0 +1,14 @@
+{
+  "start_time": "2025-09-04T15:17:53.946349",
+  "success": false,
+  "error": "No module named 'tomopy'",
+  "traceback": "Traceback (most recent call last):\n  File \"/var/folders/9_/_dx66qtn4x5drk9tybjht7tr0000gn/T/tmp9gz9c3sa.py\", line 145, in <module>\n    import tomopy\nModuleNotFoundError: No module named 'tomopy'\n",
+  "stdout": "",
+  "stderr": "\n============================================================\nPYTHON EXECUTION ERROR\n============================================================\nError Type: {type(e).__name__}\nError Message: {str(e)}\n\nFull Traceback:\n{traceback.format_exc()}\n============================================================\n\n",
+  "error_type": "CODE_ERROR",
+  "results_saved": false,
+  "figures_saved": [],
+  "figure_count": 0,
+  "execution_mode": "local",
+  "end_time": "2025-09-04T15:17:54.430823"
+}
