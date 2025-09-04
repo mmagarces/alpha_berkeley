@@ -1,0 +1,78 @@
+
+
+    ╔═════════════════════════════════════════════════════════════════╗
+    ║                                                                 ║
+    ║                                                                 ║
+    ║  ░█████╗░██╗░░░░░██████╗░██╗░░██╗░█████╗░  ░█████╗░██╗░░░░░██╗  ║
+    ║  ██╔══██╗██║░░░░░██╔══██╗██║░░██║██╔══██╗  ██╔══██╗██║░░░░░██║  ║  
+    ║  ███████║██║░░░░░██████╔╝███████║███████║  ██║░░╚═╝██║░░░░░██║  ║
+    ║  ██╔══██║██║░░░░░██╔═══╝░██╔══██║██╔══██║  ██║░░██╗██║░░░░░██║  ║
+    ║  ██║░░██║███████╗██║░░░░░██║░░██║██║░░██║  ╚█████╔╝███████╗██║  ║
+    ║  ╚═╝░░╚═╝╚══════╝╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝  ░╚════╝░╚══════╝╚═╝  ║
+    ║                                                                 ║
+    ║                                                                 ║
+    ║     Command Line Interface for the Alpha Berkeley Framework     ║
+    ╚═════════════════════════════════════════════════════════════════╝
+        
+💡 Type 'bye' or 'end' to exit
+
+🔄 Initializing configuration...
+🔄 Initializing framework...
+[2;36m[08/28/25 13:01:38][0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Loaded application registry: bolt[0m                                                
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Built merged registry with [0m[1;36m1[0m[38;5;111m applications[0m                                        
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Initializing registry system[0m[33m...[0m                                                  
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Registered [0m[1;36m9[0m[38;5;111m context classes[0m                                                     
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m Memory manager initialized with directory:                                                 
+[2;36m                    [0m         [35m/Users/magarces/bolt_project/alpha_berkeley/_agent_data/[0m[95muser_memory[0m                        
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Registered [0m[1;36m1[0m[38;5;111m data sources[0m                                                        
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Registered [0m[1;36m5[0m[38;5;111m core nodes[0m                                                          
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Registered [0m[1;36m1[0m[38;5;111m services[0m                                                            
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Registered [0m[1;36m11[0m[38;5;111m capabilities[0m                                                       
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Successfully loaded [0m[1;36m9[0m[38;5;111m/[0m[1;36m9[0m[38;5;111m custom prompt builders for framework_defaults[0m            
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Set default framework prompt provider to: framework_defaults[0m                     
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Registered [0m[1;36m1[0m[38;5;111m framework prompt providers[0m                                          
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Registry initialization complete![0m                                                
+[2;36m                    [0m         [38;5;111m   Components loaded:[0m                                                                      
+[2;36m                    [0m         [38;5;111m      • [0m[1;36m11[0m[38;5;111m capabilities: memory, time_range_parsing, python, respond, clarify, [0m            
+[2;36m                    [0m         [38;5;111mmotor_position_read, motor_position_set, detector_image_capture, [0m                          
+[2;36m                    [0m         [38;5;111mphotogrammetry_scan_execute, reconstruct_object, ply_quality_assessment[0m                    
+[2;36m                    [0m         [38;5;111m      • [0m[1;36m16[0m[38;5;111m nodes [0m[1;38;5;111m([0m[38;5;111mincluding [0m[1;36m5[0m[38;5;111m core infrastructure[0m[1;38;5;111m)[0m                                         
+[2;36m                    [0m         [38;5;111m      • [0m[1;36m9[0m[38;5;111m context types: MEMORY_CONTEXT, TIME_RANGE, PYTHON_RESULTS, MOTOR_POSITION, [0m      
+[2;36m                    [0m         [38;5;111mMOTOR_MOVEMENT, DETECTOR_IMAGE, PHOTOGRAMMETRY_SCAN, RECONSTRUCT_OBJECT, [0m                  
+[2;36m                    [0m         [38;5;111mPLY_QUALITY_ASSESSMENT[0m                                                                     
+[2;36m                    [0m         [38;5;111m      • [0m[1;36m1[0m[38;5;111m data sources: core_user_memory[0m                                                   
+[2;36m                    [0m         [38;5;111m      • [0m[1;36m1[0m[38;5;111m services: python_executor[0m                                                        
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Registry export saved to: [0m                                                       
+[2;36m                    [0m         [35m/Users/magarces/bolt_project/alpha_berkeley/_agent_data/registry_exports/[0m[95mregistry_export.js[0m
+[2;36m                    [0m         [95mon[0m                                                                                         
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;111mRegistry: Export contains: [0m[1;36m11[0m[38;5;111m capabilities, [0m[1;36m9[0m[38;5;111m context types[0m                                
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [37mBuilder: Creating framework graph using registry components[0m                                
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [37mBuilder: Using provided InMemorySaver checkpointer[0m                                         
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [37mBuilder: Building graph with [0m[1;36m16[0m[37m nodes from registry[0m                                        
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [1;32m✅ Builder: Successfully created async framework graph with [0m[1;36m16[0m[1;32m nodes and InMemorySaver [0m    
+[2;36m                    [0m         [1;32mcheckpointing enabled [0m[1;32m([0m[1;32mR&D mode[0m[1;32m)[0m                                                           
+[2;36m                   [0m[2;36m [0m[34mINFO    [0m [38;5;216mGateway: Gateway initialized[0m                                                               
+✅ Framework initialized! Thread ID: cli_session_2c325bc3
+  • Use ↑/↓ arrow keys to navigate command history
+  • Use ←/→ arrow keys to edit current line
+  • Press Ctrl+L to clear screen
+  • Type 'bye' or 'end' to exit, or press Ctrl+C
+
+👤 You: 
+
+
+
+
+
+
+         👤 You: 
+👤 You: 
+
+
+
+
+
+
+         👤 You:                                                                                                                                                        
+
+👋 Goodbye!

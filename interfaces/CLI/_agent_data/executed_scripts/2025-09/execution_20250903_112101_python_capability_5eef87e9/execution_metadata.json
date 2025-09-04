@@ -1,0 +1,14 @@
+{
+  "start_time": "2025-09-03T11:21:02.712834",
+  "success": false,
+  "error": "cannot import name 'mv' from 'bluesky.plans' (/opt/miniconda3/envs/bluesky/lib/python3.11/site-packages/bluesky/plans.py)",
+  "traceback": "Traceback (most recent call last):\n  File \"/var/folders/9_/_dx66qtn4x5drk9tybjht7tr0000gn/T/tmp4ye7pe2q.py\", line 141, in <module>\n    from bluesky.plans import mv\nImportError: cannot import name 'mv' from 'bluesky.plans' (/opt/miniconda3/envs/bluesky/lib/python3.11/site-packages/bluesky/plans.py)\n",
+  "stdout": "",
+  "stderr": "\n============================================================\nPYTHON EXECUTION ERROR\n============================================================\nError Type: {type(e).__name__}\nError Message: {str(e)}\n\nFull Traceback:\n{traceback.format_exc()}\n============================================================\n\n",
+  "error_type": "CODE_ERROR",
+  "results_saved": false,
+  "figures_saved": [],
+  "figure_count": 0,
+  "execution_mode": "local",
+  "end_time": "2025-09-03T11:21:03.267613"
+}
