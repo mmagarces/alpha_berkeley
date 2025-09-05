@@ -48,7 +48,7 @@ class GenerateBlueskyExecCapability(BaseCapability):
             
             # Create context object
             context = CurrentGenerateBlueskyExecContext(
-                bluesky_plan=execution_result.msg,  # Use the message as the plan identifier
+                result=execution_result.msg,  # Use the message as the plan identifier
                 condition=execution_result.condition,
                 timestamp=execution_result.timestamp
             )

@@ -23,7 +23,7 @@ class CurrentGenerateBlueskyExecContext(CapabilityContext):
     CONTEXT_CATEGORY: ClassVar[str] = "LIVE_DATA"
     
     # Motor position data
-    bluesky_plan: str = Field(description="Bluesky plan identifier (e.g., DMC01:A)")
+    result: str = Field(description="Varies, but is the result of the Bluesky plan execution")
     condition: str = Field(description="Bluesky plan status and condition description")
     timestamp: datetime = Field(description="Timestamp when position was read")
     
@@ -32,18 +32,18 @@ class CurrentGenerateBlueskyExecContext(CapabilityContext):
         key_ref = key_name if key_name else "key_name"
         
         return {
-            "bluesky_plan_id": self.bluesky_plan,   
-            "current_bluesky_plan": f"{self.bluesky_plan}°",
+            "bluesky_plan_id": self.result,   
+            "current_bluesky_plan": f"{self.result}",
             "bluesky_plan_status": self.condition,
             "access_pattern": f"context.{self.CONTEXT_TYPE}.{key_ref}.bluesky_plan, context.{self.CONTEXT_TYPE}.{key_ref}.condition",
-            "example_usage": f"Bluesky plan {self.bluesky_plan} is positioned at {{context.{self.CONTEXT_TYPE}.{key_ref}.bluesky_plan}}°",
+            "example_usage": f"Bluesky plan {self.result}",
             "available_fields": ["bluesky_plan", "condition", "timestamp"]
         }
     
     def get_human_summary(self, key: str) -> dict:
         """Generate human-readable summary of bluesky plan position data from Tiled."""
         return {
-            "summary": f"Bluesky plan {self.bluesky_plan} positioned at {self.bluesky_plan}° (retrieved from Tiled data after executing through the queue serveron {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')})"
+            "summary": f"Bluesky plan {self.result}(retrieved from Tiled data after executing through the queue server son {self.timestamp.strftime('%Y-%m-%d')} at {self.timestamp.strftime('%H:%M')})"
         }
 
 class CurrentCreateBlueskyPlanContext(CapabilityContext):

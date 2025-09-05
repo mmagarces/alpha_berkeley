@@ -16,7 +16,7 @@ class CurrentAngleReading:
     """Structured data model for motor angular position readings.
     """
     motor: str
-    angle: float  # Final motor angle position
+    angle: float 
     condition: str
     timestamp: datetime
 
@@ -151,8 +151,6 @@ class BoltAPI:
                                 kwargs[key] = value
                     break
             
-            
-            
             return CurrentBlueskyPlanReading(
                 condition="Bluesky plan created successfully",
                 msg="Generated bluesky plan",
@@ -183,7 +181,8 @@ class BoltAPI:
             api_call = json.loads(api_str)         # turn it into a Python dict
 
             import json
-            # Use the configurable FASTAPI_URL
+            # Use the configurable FASTAPI_URL in order to execute the plan you wish to run
+            # In this case, we are executing the plan chosen by the model based on your input
             queue_url = f"http://{self.FASTAPI_URL}:8003/api/queue/item/execute"
 
             cmd = [
@@ -202,9 +201,12 @@ class BoltAPI:
                 raise Exception(f"API call failed: {result.stderr}")
             
             response_data = json.loads(result.stdout)
+            
+            #The call generates this, which is the thumbprint of the plan being executed. Although this isnt
+            #The UID related to the actual process, this lets us identify the plan being executed later.
             item_uid = response_data["item"]["item_uid"]
             
-            # Wait for execution to complete (similar to get_current_angle)
+            # Wait for execution to complete
             try:
                 count = 0
                 check = None
@@ -219,15 +221,17 @@ class BoltAPI:
                         "-H", "accept: application/json",
                         "-H", "Authorization: Apikey test"
                     ]   
-                    print(count)
                     result = subprocess.run(cmd, capture_output=True, text=True)
                     history_data = json.loads(result.stdout)
                     for item in history_data:
                         check = item
-                    
-                    if check == "run_list_uid" and (api_call["item"]["name"] == "get_angle"):
-                        count += 1
-                    elif check == "run_list" and api_call["item"]["name"] == "move_motor":
+                    # These are custom, simply what worked during each call. This should be modified and fixed, 
+                    # Esepcially due to the lack of consitency and usage of the call itself.
+                    # They are what allow the plan to remain in the while loop, and the plan to be executed.
+                    if check == "run_list" and api_call["item"]["name"] == "move_motor":
+                         count += 0.3
+                         count = round(count, 1)
+                    elif check == "run_list" and  (api_call["item"]["name"] == "get_angle"):
                         count += 1
                     elif (len(history_data["run_list"]) == 0) and ((api_call["item"]["name"] == "rotation_scan" or api_call["item"]["name"] == "reconstruct_object")):
                         count += 1
@@ -238,11 +242,15 @@ class BoltAPI:
                             count += 3
                             break
                         previous_run_list_uid = current_run_list_uid
+                    elif check == "run_list_uid" and api_call["item"]["name"] == "camera_acquire":
+                        count += 1.5
                     time.sleep(1)
                     
             except Exception as e:
                 print(f"Error waiting for execution: {e}")
             
+            # Once done, we are grabbing the history of the run and using the previosuly generated item_uid to identify the run,
+            # therefore helpoing us grab the correct run UID.
             try:
                 # Test GET method for history
                 queue_url = f"http://{self.FASTAPI_URL}:8003/api/history/get"
@@ -259,8 +267,9 @@ class BoltAPI:
                 result = subprocess.run(cmd, capture_output=True, text=True)
                 history_data = json.loads(result.stdout)
                 
+                # In the cae that there are multiple runs (some need it), we are trying to store both run_ids.
                 for item in history_data["items"]:
-                    if item["item_uid"] == item_uid:
+                    if item["item_uid"] == item_uid:    #Until found
                         run_id_0 = (item["result"]["run_uids"][0])
                         try:
                             run_id_1 = (item["result"]["run_uids"][1])
@@ -270,6 +279,8 @@ class BoltAPI:
             except Exception as e:
                 print(f"Error: {e}")
             
+            # Connect to the tiled server in order to grab the metadata of the run, or provide a link to the run's generated
+            # data.
             from tiled.client import from_uri
             tiled_server_url = f"http://{self.FASTAPI_URL}:8000"
             tiled_api_key = "ca6ae384c9f944e1465176b7e7274046b710dc7e2703dc33369f7c900d69bd64"
@@ -278,19 +289,21 @@ class BoltAPI:
                 tiled_server_url,
                 api_key=tiled_api_key
             )
-
+            
+            #This is defined by the usage purpose of the call, where multiple runs require the second run_id in the call
             run_data_0 = tiled_client[run_id_0]
             run_data_1 = tiled_client[run_id_1] if run_id_1 is not None else None
-            print(run_data_0.metadata)
             msg=f"Plan executed with UID: {item_uid}",
 
+            #This is mostly dependant on the call itself, as the plan will be different based on the call
+            #These plans are custom, and are predefined
             if (api_call["item"]["name"] == "get_angle"):
                 angle = run_data_0.metadata['start']['angle_degrees']
                 msg = "Angle result from run: " + str(angle)
 
             elif (api_call["item"]["name"] == "camera_acquire"):
-                msg = "Camera acquire result from run: " + "http://localhost:8000/ui/browse/" + run_id_1 + "_"
-            
+                run_id = run_id_1 if run_id_1 is not None else run_id_0
+                msg = "Camera acquire result from run: " + "http://localhost:8000/ui/browse/" + run_id + "_" + " (IMPORTANT: URL must end with underscore)"
             elif (api_call["item"]["name"] == "move_motor"):
                 result = run_data_0.metadata['stop']['exit_status']
                 if (result == "success"):
@@ -305,16 +318,13 @@ class BoltAPI:
             elif (api_call["item"]["name"] == "reconstruct_object"):
                 if run_data_1 is not None:
                     uuid = run_data_1.metadata['start']['rotation_views_uuid']
-                    print("Making it here")
-                    print(uuid)
-                    print(uuid)
                     msg = "Object reconstructed from folder: http://localhost:8000/ui/browse/" + uuid
                 else:
                     msg = "Object reconstruction failed - no run data available"
+            
             elif (api_call["item"]["name"] == "display_object_from_file"):
                 uuid =  run_data_0.metadata['start']['tiled_array_uuid']
                 msg = "Object displayed from file: http://localhost:8000/ui/browse/" + uuid
-
 
             return CurrentBlueskyPlanReading(
                 condition="Bluesky plan executed successfully",
