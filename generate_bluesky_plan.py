@@ -47,39 +47,63 @@ def generate_bluesky_plan(query: str, provider: str = "cborg", model_id: str = "
         BlueskyPlan: Structured plan object
     """
     
+    # Get available PVs from device definitions
+    from pv_finder import find_relevant_pvs
+    pv_result = find_relevant_pvs(query)
+    
+    # Create device definitions from available PVs
+    device_definitions = []
+    for pv in pv_result.relevant_pvs:
+        # Extract device name from description or use a default
+        device_name = pv.description.split(':')[-1].strip().replace(' ', '_').lower()
+        if 'motor' in pv.description.lower():
+            device_name = 'rotation_motor' if 'rotation' in pv.description.lower() else 'motor'
+        elif 'camera' in pv.description.lower() or 'detector' in pv.description.lower():
+            device_name = 'camera'
+        
+        if pv.category == "motor":
+            device_definitions.append(f"{device_name} = EpicsMotor('{pv.pv_name}', name='{device_name}')")
+        elif pv.category == "detector":
+            device_definitions.append(f"{device_name} = EpicsSignal('{pv.pv_name}', name='{device_name}')")
+        elif pv.category == "signal":
+            device_definitions.append(f"{device_name} = EpicsSignal('{pv.pv_name}', name='{device_name}')")
+    
+    device_defs_code = "\n".join(device_definitions) if device_definitions else "# No devices found"
+    
     prompt = f"""
 You are an expert in Bluesky data collection plans. Generate a complete Bluesky plan based on the following user query:
 
 Query: "{query}"
 
+Available devices from PV finder:
+{device_defs_code}
+
 Please provide a structured response with:
 1. A descriptive name for the plan
 2. A clear description of what the plan does
-3. Complete Python code for the Bluesky plan using proper Bluesky syntax
+3. Complete Python code for the Bluesky plan using the available devices above
 4. List of required devices/motors
 5. Plan parameters with descriptions
 6. Estimated execution time if applicable
 
-The plan should be production-ready and follow Bluesky best practices. Use proper imports, device definitions, and plan decorators.
+The plan should be production-ready and follow Bluesky best practices. Use the device definitions provided above as string default values in the function signature. Do NOT use default values for parameters like angles - just use the parameter name without a default value.
 
 Example of good Bluesky plan structure:
 ```python
 from bluesky import RunEngine
 from bluesky.plans import scan
-from ophyd import EpicsMotor
+from ophyd import EpicsMotor, EpicsSignal
 
-# Device definitions
-motor = EpicsMotor('prefix:motor', name='motor')
-detector = EpicsSignal('prefix:detector', name='detector')
+# Device definitions (use the ones provided above)
+{device_defs_code}
 
-# Plan definition
-@bpp.stage_decorator([motor, detector])
+# Plan definition with devices as string default parameters
 @bpp.run_decorator()
-def my_scan_plan(motor, detector, start, stop, num_points):
+def my_scan_plan(motor="rotation_motor", detector="camera", start, stop, num_points):
     yield from scan([detector], motor, start, stop, num_points)
 ```
 
-Make sure to include all necessary imports and device definitions in the plan code.
+Make sure to use the available devices as string default parameters in your function signature (e.g., motor="rotation_motor" not motor=rotation_motor). Do NOT use default values for numeric parameters like angles, positions, or counts - just use the parameter name without any default value.
 """
     
     try:

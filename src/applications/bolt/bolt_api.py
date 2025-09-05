@@ -10,6 +10,7 @@ from datetime import datetime
 from dataclasses import dataclass
 import subprocess
 import time
+import json
 @dataclass
 class CurrentAngleReading:
     """Structured data model for motor angular position readings.
@@ -66,7 +67,12 @@ class CurrentBlueskyPlanReading:
     """Structured data model for bluesky plan execution results."""
     condition: str
     msg: str
-    timestamp: datetime
+    plan_code: str = ""
+    timestamp: datetime = None
+    
+    def __post_init__(self):
+        if self.timestamp is None:
+            self.timestamp = datetime.now()
 
 
 class BoltAPI:
@@ -87,6 +93,81 @@ class BoltAPI:
 
     FASTAPI_URL = "localhost"
     
+    def create_bluesky_plan(self, api_call: str) -> CurrentBlueskyPlanReading:
+        """Create a Bluesky plan using the provided API call structure without executing it."""
+        try:
+            # Call the generate_bluesky_plan.py script
+            result = subprocess.run(
+                ["python", "generate_bluesky_plan.py", api_call],
+                capture_output=True,
+                text=True,
+                cwd="/Users/magarces/agenticAI_bolt-main/version-control/bolt-5/alpha_berkeley"
+            )
+            
+            if result.returncode != 0:
+                raise Exception(f"Script failed: {result.stderr}")
+            
+            # Parse the output to extract the plan code
+            output_lines = result.stdout.strip().split('\n')
+            plan_code = ""
+            in_code_block = False
+            
+            for line in output_lines:
+                if line.strip().startswith('```python'):
+                    in_code_block = True
+                    continue
+                elif line.strip() == '```' and in_code_block:
+                    break
+                elif in_code_block:
+                    plan_code += line + '\n'
+            
+            # If no code block found, use the entire output as plan code
+            if not plan_code.strip():
+                plan_code = result.stdout.strip()
+            
+            # Extract plan name and parameters from the generated code
+            plan_name = "generated_plan"  # default
+            kwargs = {}
+            
+            for line in plan_code.split('\n'):
+                if line.strip().startswith('def '):
+                    # Extract function name
+                    plan_name = line.strip().split('(')[0].replace('def ', '').strip()
+                    
+                    # Extract parameters
+                    if '(' in line and ')' in line:
+                        params_str = line.split('(')[1].split(')')[0]
+                        for param in params_str.split(','):
+                            param = param.strip()
+                            if '=' in param:
+                                key, value = param.split('=', 1)
+                                key = key.strip()
+                                value = value.strip().strip('"\'')
+                                # Convert numeric values
+                                if value.isdigit():
+                                    value = int(value)
+                                elif value.replace('.', '').isdigit():
+                                    value = float(value)
+                                kwargs[key] = value
+                    break
+            
+            
+            
+            return CurrentBlueskyPlanReading(
+                condition="Bluesky plan created successfully",
+                msg="Generated bluesky plan",
+                plan_code=plan_code,
+                timestamp=datetime.now()
+            )
+            
+        except Exception as e:
+            print(f"Error: {str(e)}")
+            return CurrentBlueskyPlanReading(
+                condition=f"Error: {str(e)}",
+                msg="Failed to create Bluesky plan",
+                timestamp=datetime.now()
+            )
+
     def execute_bluesky_plan(self, api_call: str) -> CurrentBlueskyPlanReading:
         """Execute a Bluesky plan using the provided API call structure."""
         try:
@@ -199,34 +280,37 @@ class BoltAPI:
             )
 
             run_data_0 = tiled_client[run_id_0]
-            run_data_1 = tiled_client[run_id_1]
+            run_data_1 = tiled_client[run_id_1] if run_id_1 is not None else None
             print(run_data_0.metadata)
             msg=f"Plan executed with UID: {item_uid}",
 
             if (api_call["item"]["name"] == "get_angle"):
                 angle = run_data_0.metadata['start']['angle_degrees']
                 msg = "Angle result from run: " + str(angle)
+
             elif (api_call["item"]["name"] == "camera_acquire"):
                 msg = "Camera acquire result from run: " + "http://localhost:8000/ui/browse/" + run_id_1 + "_"
+            
             elif (api_call["item"]["name"] == "move_motor"):
                 result = run_data_0.metadata['stop']['exit_status']
                 if (result == "success"):
                     msg = "Motor movement successful"
                 else:
                     msg = "Motor movement failed"
+
             elif (api_call["item"]["name"] == "rotation_scan"):
                 dir = api_call["item"]["kwargs"]["save_dir"]
                 msg = "Rotation scan completed: http://localhost:8000/ui/browse/" + dir
+
             elif (api_call["item"]["name"] == "reconstruct_object"):
-                
-                uuid = run_data_1.metadata['start']['rotation_views_uuid']
-
-                print("Making it here")
-                print(uuid)
-                print(uuid)
-
-
-                msg = "Object reconstructed from folder: http://localhost:8000/ui/browse/" + uuid
+                if run_data_1 is not None:
+                    uuid = run_data_1.metadata['start']['rotation_views_uuid']
+                    print("Making it here")
+                    print(uuid)
+                    print(uuid)
+                    msg = "Object reconstructed from folder: http://localhost:8000/ui/browse/" + uuid
+                else:
+                    msg = "Object reconstruction failed - no run data available"
             elif (api_call["item"]["name"] == "display_object_from_file"):
                 uuid =  run_data_0.metadata['start']['tiled_array_uuid']
                 msg = "Object displayed from file: http://localhost:8000/ui/browse/" + uuid

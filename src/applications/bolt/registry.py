@@ -35,6 +35,14 @@ class BoltRegistryProvider(RegistryConfigProvider):
                     provides=["BLUESKY_PLAN"],
                     requires=[]
                 ),
+                CapabilityRegistration(
+                    name="create_bluesky_plan",
+                    module_path="applications.bolt.capabilities.create_bluesky_plan",
+                    class_name="CreateBlueskyPlanCapability", 
+                    description="Create a Bluesky plan",
+                    provides=["BLUESKY_PLAN_CREATION"],
+                    requires=[]
+                ),
             ],
             
             context_classes=[
@@ -42,6 +50,11 @@ class BoltRegistryProvider(RegistryConfigProvider):
                     context_type="BLUESKY_PLAN",
                     module_path="applications.bolt.context_classes", 
                     class_name="CurrentGenerateBlueskyExecContext"
+                ),
+                ContextClassRegistration(
+                    context_type="BLUESKY_PLAN_CREATION",
+                    module_path="applications.bolt.context_classes", 
+                    class_name="CurrentCreateBlueskyPlanContext"
                 ),
             ]
         )

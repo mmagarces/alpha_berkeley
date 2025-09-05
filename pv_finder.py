@@ -41,37 +41,32 @@ class PVFinderResult(BaseModel):
     additional_notes: Optional[str] = Field(default=None, description="Additional notes or recommendations")
 
 
-# Hardcoded PV table with realistic ALS-style PVs
-HARDCODED_PV_TABLE = {
-    "motors": [
-        ProcessVariable(
-            pv_name="ALS:SR:ES:BM:01:Y",
-            description="Random motor",
-            category="motor",
-            units="mm"
-        ),
-        ProcessVariable(
-            pv_name="DMC01:A",
-            description="Main bolt beamline motor - controls horizontal beam position", 
-            category="motor",
-            units="mm"
-        ),
-    ],
-    "detectors": [
-        ProcessVariable(
-            pv_name="ALS:SR:ES:IC:01:VALUE",
-            description="Ion chamber detector - measures beam intensity",
-            category="detector",
-            units="nA"
-        ),
-        ProcessVariable(
-            pv_name="13ARV1:cam1",
-            description="Main bolt beamline motor",
-            category="detector",
-            units="counts"
-        ),
-    ]
-}
+def load_pvs_from_file(file_path: str = "extracted_pvs.json") -> Dict[str, List[ProcessVariable]]:
+    """
+    Load PVs from the extracted JSON file.
+    
+    Args:
+        file_path: Path to the JSON file containing extracted PVs
+    
+    Returns:
+        Dictionary of PVs organized by category
+    """
+    try:
+        with open(file_path, 'r') as f:
+            data = json.load(f)
+        
+        # Convert JSON data back to ProcessVariable objects
+        pv_table = {}
+        for category, pv_list in data.items():
+            pv_table[category] = [ProcessVariable(**pv_data) for pv_data in pv_list]
+        
+        return pv_table
+    except FileNotFoundError:
+        print(f"Warning: {file_path} not found. Using empty PV table.")
+        return {"motors": [], "detectors": [], "signals": [], "camera_config": [], "plugins": []}
+    except Exception as e:
+        print(f"Error loading PVs from {file_path}: {e}")
+        return {"motors": [], "detectors": [], "signals": [], "camera_config": [], "plugins": []}
 
 
 def find_relevant_pvs(query: str, provider: str = "cborg", model_id: str = "anthropic/claude-sonnet") -> PVFinderResult:
@@ -87,9 +82,12 @@ def find_relevant_pvs(query: str, provider: str = "cborg", model_id: str = "anth
         PVFinderResult: Structured result with relevant PVs and reasoning
     """
     
+    # Load PVs from the extracted file
+    pv_table = load_pvs_from_file()
+    
     # Flatten the PV table for the prompt
     all_pvs = []
-    for category, pvs in HARDCODED_PV_TABLE.items():
+    for category, pvs in pv_table.items():
         all_pvs.extend(pvs)
     
     # Create a formatted string of all available PVs
@@ -271,10 +269,13 @@ Examples:
     if args.list_pvs:
         print("Available Process Variables:")
         print("=" * 50)
-        for category, pvs in HARDCODED_PV_TABLE.items():
-            print(f"\n{category.upper().replace('_', ' ')}:")
-            for pv in pvs:
-                print(f"  {pv.pv_name}: {pv.description} ({pv.units})")
+        pv_table = load_pvs_from_file()
+        for category, pvs in pv_table.items():
+            if pvs:  # Only show categories that have PVs
+                print(f"\n{category.upper().replace('_', ' ')}:")
+                for pv in pvs:
+                    units_str = f" ({pv.units})" if pv.units else ""
+                    print(f"  {pv.pv_name}: {pv.description}{units_str}")
         return
     
     if args.interactive:

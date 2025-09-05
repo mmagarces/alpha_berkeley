@@ -1,0 +1,42 @@
+{
+  "motors": [
+    {
+      "pv_name": "DMC01:A",
+      "description": "Motor device: rotation_motor - controls position",
+      "category": "motor",
+      "units": "mm",
+      "device_name": "rotation_motor",
+      "device_type": "EpicsMotor"
+    },
+    {
+      "pv_name": "DMC01:D",
+      "description": "Motor device: linear_stage - controls position",
+      "category": "motor",
+      "units": "mm",
+      "device_name": "linear_stage",
+      "device_type": "EpicsMotor"
+    }
+  ],
+  "detectors": [
+    {
+      "pv_name": "13ARV1:",
+      "description": "Detector device: camera - captures images/data",
+      "category": "detector",
+      "units": null,
+      "device_name": "camera",
+      "device_type": "MyCamera"
+    }
+  ],
+  "signals": [
+    {
+      "pv_name": "13ARV1:cam1:Acquire",
+      "description": "Signal device: acquire_signal - controls/reads values",
+      "category": "signal",
+      "units": null,
+      "device_name": "acquire_signal",
+      "device_type": "EpicsSignal"
+    }
+  ],
+  "camera_config": [],
+  "plugins": []
+}
