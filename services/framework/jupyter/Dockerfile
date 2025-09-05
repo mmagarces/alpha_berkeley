@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:python-3.11
+FROM ubuntu:22.04
 
 # Switch to root to install packages
 USER root

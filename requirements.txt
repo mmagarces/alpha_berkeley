@@ -71,3 +71,8 @@ sphinx-autobuild
 sphinx-design
 sphinxcontrib-mermaid
 graphviz
+
+# BOLT requirements
+tiled>=0.1.0
+entrypoints>=0.4
+stamina>=25.1.0
