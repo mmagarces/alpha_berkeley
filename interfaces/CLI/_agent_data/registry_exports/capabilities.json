@@ -50,23 +50,73 @@
     "class_name": "ClarifyCapability"
   },
   {
-    "name": "current_angle",
-    "description": "Get current angle for a motor",
+    "name": "motor_position_read",
+    "description": "Read current angular position of sample rotation motor",
     "provides": [
-      "CURRENT_ANGLE"
+      "MOTOR_POSITION"
     ],
     "requires": [],
-    "module_path": "applications.bolt.capabilities.current_angle",
-    "class_name": "CurrentAngleCapability"
+    "module_path": "applications.bolt.capabilities.motor_position_read",
+    "class_name": "MotorPositionReadCapability"
   },
   {
-    "name": "move_motor",
-    "description": "Move motor to ",
+    "name": "motor_position_set",
+    "description": "Move sample rotation motor to specified angular position",
     "provides": [
-      "MOVE_MOTOR"
+      "MOTOR_MOVEMENT"
     ],
     "requires": [],
-    "module_path": "applications.bolt.capabilities.move_motor",
-    "class_name": "CurrentMoveMotorCapability"
+    "module_path": "applications.bolt.capabilities.motor_position_set",
+    "class_name": "MotorPositionSetCapability"
+  },
+  {
+    "name": "detector_image_capture",
+    "description": "Capture single image from area detector",
+    "provides": [
+      "DETECTOR_IMAGE"
+    ],
+    "requires": [],
+    "module_path": "applications.bolt.capabilities.detector_image_capture",
+    "class_name": "DetectorImageCaptureCapability"
+  },
+  {
+    "name": "photogrammetry_scan_execute",
+    "description": "Execute complete photogrammetry scan with multiple projections",
+    "provides": [
+      "PHOTOGRAMMETRY_SCAN"
+    ],
+    "requires": [],
+    "module_path": "applications.bolt.capabilities.photogrammetry_scan_execute",
+    "class_name": "PhotogrammetryScanExecuteCapability"
+  },
+  {
+    "name": "reconstruct_object",
+    "description": "Reconstruct object from folder",
+    "provides": [
+      "RECONSTRUCT_OBJECT"
+    ],
+    "requires": [],
+    "module_path": "applications.bolt.capabilities.reconstruct_object",
+    "class_name": "ReconstructObjectCapability"
+  },
+  {
+    "name": "ply_quality_assessment",
+    "description": "Assess quality of 3D reconstruction from PLY file",
+    "provides": [
+      "PLY_QUALITY_ASSESSMENT"
+    ],
+    "requires": [],
+    "module_path": "applications.bolt.capabilities.ply_quality_assessment",
+    "class_name": "PLYQualityAssessmentCapability"
+  },
+  {
+    "name": "display_object",
+    "description": "Display object",
+    "provides": [
+      "DISPLAY_OBJECT"
+    ],
+    "requires": [],
+    "module_path": "applications.bolt.capabilities.display_object",
+    "class_name": "DisplayObjectCapability"
   }
 ]

@@ -1,8 +1,8 @@
 # PROMPT METADATA
-# Generated: 2025-08-12 20:55:32
+# Generated: 2025-09-05 14:09:03
 # Name: orchestrator
 # Builder: DefaultOrchestratorPromptBuilder
-# File: /Users/magarces/test/alpha_berkeley/interfaces/CLI/_agent_data/prompts/orchestrator_latest.md
+# File: /home/general/Pictures/alpha_berkeley/interfaces/CLI/_agent_data/prompts/orchestrator_latest.md
 # Latest Only: True
 
 
@@ -40,84 +40,34 @@ Never plan for simulated or fictional data - only real system operations.
 
 # CAPABILITY PLANNING GUIDELINES
 
-## CurrentAngle
-**When to plan "current_angle" steps:**
-- When users ask for current angle position
-- For real-time angle information requests
-- When motor-specific current conditions are needed
+## MotorPositionRead
+**When to plan "motor_position_read" steps:**
+- User asks "what is the current angle/position?"
+- Before planning motor movements (to know starting position)
+- For experimental setup and status verification
+- When troubleshooting sample positioning issues
 
-**Output: CURRENT_ANGLE**
-- Contains: motor, angle, and timestamp
-- Available for immediate display or further analysis
+**BOLT Beamline Context:**
+- Essential for photogrammetry scan preparation
+- Required before motor position changes
+- Used for sample alignment verification
 
-**Motor Support:**
-- Supports: DMC01:A
-- Defaults to DMC01:A if location not specified
+**Output:
+- Contains: motor_id, angle_degrees, timestamp  
+- Available for motor movement planning and status reporting
+- Live data acquired via queue server execution and extracted from Tiled metadata
 
-**Example Step Planning:**
-
-1. **Getting current angle for a motor**
-   PlannedStep(
-   )
-   - Note: Output stored as CURRENT_ANGLE with angle data.
-
-
-## CurrentMoveMotor
-**When to plan "move_motor" steps:**
-- When users ask to move a motor to a position/angle
-- For move motor requests
-- When motor-specific current conditions are needed
-
-**Output: MOVE_MOTOR**
-- Contains: motor, angle, and timestamp
-- Available for immediate display or further analysis
-
-**Motor Support:**
-- Supports: DMC01:A
-- Defaults to DMC01:A if location not specified
+**Typical Workflow Position:**
+- Often first step before motor movements
+- Used for status reporting to user
+- Prerequisites for photogrammetry scan planning
 
 **Example Step Planning:**
 
-1. **Getting current weather for a location**
+1. **Reading current sample rotation motor position for status check or before movement**
    PlannedStep(
    )
-   - Note: Output stored as MOVE_MOTOR with move motor data.
-
-
-## MemoryOperations
-
-**When to plan "memory" steps:**
-- When the user explicitly asks to save, store, or remember something for later
-- When the user asks to show, display, or view their saved memory
-- When the user explicitly mentions memory operations
-
-**IMPORTANT**: This capability has a VERY STRICT classifier. Only use when users 
-explicitly mention memory-related operations. Do NOT use for general information 
-storage or context management.
-
-**Step Structure:**
-- context_key: Unique identifier for output (e.g., "memory_save", "memory_display")
-- task_objective: The specific memory operation to perform
-
-**Output: MEMORY_CONTEXT**
-- Save operations: Contains saved content for response confirmation
-- Retrieve operations: Contains stored memory content for use by respond step
-- Available to downstream steps via context system
-
-Only plan this step when users explicitly request memory operations.
-
-
-**Example Step Planning:**
-
-1. **Saving important information to user memory**
-   PlannedStep(
-   )
-   - Note: Content is persisted to memory file and provided as MEMORY_CONTEXT context for response confirmation.
-
-2. **Displaying stored memory content**
-   PlannedStep(
-   )
-   - Note: Retrieves memory content as MEMORY_CONTEXT. Typically followed by respond step to present results to user.
+   - Note: Data retrieved from MOTOR_POSITION, generated from Tiled. Use before motor movements or for status checks.
 
 
 ## Clarify

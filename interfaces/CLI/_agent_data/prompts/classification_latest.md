@@ -1,8 +1,8 @@
 # PROMPT METADATA
-# Generated: 2025-08-12 20:55:31
+# Generated: 2025-09-05 14:09:01
 # Name: classification
 # Builder: DefaultClassificationPromptBuilder
-# File: /Users/magarces/test/alpha_berkeley/interfaces/CLI/_agent_data/prompts/classification_latest.md
+# File: /home/general/Pictures/alpha_berkeley/interfaces/CLI/_agent_data/prompts/classification_latest.md
 # Latest Only: True
 
 
@@ -15,9 +15,23 @@ Based on the instructions and examples, you must output a JSON object with a key
 Respond ONLY with the JSON object. Do not provide any explanation, preamble, or additional text.
 
 Here is the capability you need to assess:
-Determine if the task requires current angle information
+Determine if the user wants to DISPLAY a single image from the area detector in the BOLT beamline system.
+
+BOLT CONTEXT: This is a beamline where area detectors capture images for analysis. Users may request:
+- Object
+- Test shots before scans
+- Quality control images
+- Alignment verification images
 
 Examples:
-  - User Query: "What tools do you have?" -> Expected Output: False -> Reason: Request is for tool information, not current angle.
-  - User Query: "What was the preivous motor position" -> Expected Output: False -> Reason: Request is for historical motor data, not current conditions.
-  - User Query: "Move motor to 45 degrees" -> Expected Output: True -> Reason: Request is to move motor to some angle/position
+  - User Query: "Display object in file" -> Expected Output: True -> Reason: Direct request for image capture.
+  - User Query: "Display object" -> Expected Output: True -> Reason: Request for single image capture.
+  - User Query: "Show me the previous image" -> Expected Output: False -> Reason: Request for historical data, not new image capture.
+  - User Query: "Move the motor to 45 degrees" -> Expected Output: False -> Reason: This is a motor movement command, not image capture.
+  - User Query: "Display object" -> Expected Output: True -> Reason: Request for test image before experiments.
+  - User Query: "Get an image of the sample" -> Expected Output: True -> Reason: Request to capture sample image.
+  - User Query: "What tools do you have?" -> Expected Output: False -> Reason: Request is for tool information, not image capture.
+  - User Query: "What is the current motor position?" -> Expected Output: False -> Reason: This is a position read request, not image capture.
+  - User Query: "Start a photogrammetry scan" -> Expected Output: False -> Reason: This is a full scan request, not single image capture.
+  - User Query: "Check beam alignment with an image" -> Expected Output: True -> Reason: Request for alignment verification image.
+  - User Query: "Display object" -> Expected Output: True -> Reason: Request to capture detector image.
