@@ -2,7 +2,7 @@
 
 ## SSH Port Forwarding Setup
 
-Open 2 terminal windows and run the following commands:
+Open 3 terminal windows and run the following commands:
 
 ```bash
 # Terminal 1 - Tiled port forwarding
@@ -12,6 +12,11 @@ ssh -N -L 8000:localhost:8000 user@128.3.117.8
 # Terminal 2 - Queue server port forwarding  
 ssh -N -L 8003:localhost:60610 user@128.3.117.8
 # Password: xray$1300
+
+#This will vary depending on your system, but wherever you install the bolt-api call, perform the following
+pip install config
+uvicorn server:app --host 127.0.0.1 --port 8004 --reload
+#server in this case is what I named my file (server.py in my case), so this can be modified to your liking
 ```
 
 ## Project Setup

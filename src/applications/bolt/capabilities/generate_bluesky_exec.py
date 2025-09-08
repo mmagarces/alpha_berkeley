@@ -41,8 +41,9 @@ class GenerateBlueskyExecCapability(BaseCapability):
         streamer = get_streamer("bolt", "generate_bluesky_exec", state)
         
         try:
+            import subprocess
             user_query = StateManager.get_current_task(state)
-            streamer.status("Analyzing user request...")
+
             streamer.status("Generating and executing Bluesky plan...")
             execution_result = bolt_api.execute_bluesky_plan(user_query)
             
