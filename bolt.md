@@ -117,5 +117,7 @@ Run podman desktop and run the services (compose)
 
 In a terminal, run the following:
 
+
+
 podman exec -it pipelines pip install tiled entrypoints stamina
 
