@@ -51,24 +51,74 @@
       "class_name": "ClarifyCapability"
     },
     {
-      "name": "current_angle",
-      "description": "Get current angle for a motor",
+      "name": "motor_position_read",
+      "description": "Read current angular position of sample rotation motor",
       "provides": [
-        "CURRENT_ANGLE"
+        "MOTOR_POSITION"
       ],
       "requires": [],
-      "module_path": "applications.bolt.capabilities.current_angle",
-      "class_name": "CurrentAngleCapability"
+      "module_path": "applications.bolt.capabilities.motor_position_read",
+      "class_name": "MotorPositionReadCapability"
     },
     {
-      "name": "move_motor",
-      "description": "Move motor to ",
+      "name": "motor_position_set",
+      "description": "Move sample rotation motor to specified angular position",
       "provides": [
-        "MOVE_MOTOR"
+        "MOTOR_MOVEMENT"
       ],
       "requires": [],
-      "module_path": "applications.bolt.capabilities.move_motor",
-      "class_name": "CurrentMoveMotorCapability"
+      "module_path": "applications.bolt.capabilities.motor_position_set",
+      "class_name": "MotorPositionSetCapability"
+    },
+    {
+      "name": "detector_image_capture",
+      "description": "Capture single image from area detector",
+      "provides": [
+        "DETECTOR_IMAGE"
+      ],
+      "requires": [],
+      "module_path": "applications.bolt.capabilities.detector_image_capture",
+      "class_name": "DetectorImageCaptureCapability"
+    },
+    {
+      "name": "photogrammetry_scan_execute",
+      "description": "Execute complete photogrammetry scan with multiple projections",
+      "provides": [
+        "PHOTOGRAMMETRY_SCAN"
+      ],
+      "requires": [],
+      "module_path": "applications.bolt.capabilities.photogrammetry_scan_execute",
+      "class_name": "PhotogrammetryScanExecuteCapability"
+    },
+    {
+      "name": "reconstruct_object",
+      "description": "Reconstruct object from folder",
+      "provides": [
+        "RECONSTRUCT_OBJECT"
+      ],
+      "requires": [],
+      "module_path": "applications.bolt.capabilities.reconstruct_object",
+      "class_name": "ReconstructObjectCapability"
+    },
+    {
+      "name": "ply_quality_assessment",
+      "description": "Assess quality of 3D reconstruction from PLY file",
+      "provides": [
+        "PLY_QUALITY_ASSESSMENT"
+      ],
+      "requires": [],
+      "module_path": "applications.bolt.capabilities.ply_quality_assessment",
+      "class_name": "PLYQualityAssessmentCapability"
+    },
+    {
+      "name": "display_object",
+      "description": "Display object",
+      "provides": [
+        "DISPLAY_OBJECT"
+      ],
+      "requires": [],
+      "module_path": "applications.bolt.capabilities.display_object",
+      "class_name": "DisplayObjectCapability"
     }
   ],
   "context_types": [
@@ -91,22 +141,52 @@
       "description": "Context class PythonResultsContext"
     },
     {
-      "context_type": "CURRENT_ANGLE",
+      "context_type": "MOTOR_POSITION",
       "class_name": "CurrentAngleContext",
       "module_path": "applications.bolt.context_classes",
       "description": "Context class CurrentAngleContext"
     },
     {
-      "context_type": "MOVE_MOTOR",
+      "context_type": "MOTOR_MOVEMENT",
       "class_name": "CurrentMoveMotorContext",
       "module_path": "applications.bolt.context_classes",
       "description": "Context class CurrentMoveMotorContext"
+    },
+    {
+      "context_type": "DETECTOR_IMAGE",
+      "class_name": "CurrentTakeCaptureContext",
+      "module_path": "applications.bolt.context_classes",
+      "description": "Context class CurrentTakeCaptureContext"
+    },
+    {
+      "context_type": "PHOTOGRAMMETRY_SCAN",
+      "class_name": "CurrentRunScanContext",
+      "module_path": "applications.bolt.context_classes",
+      "description": "Context class CurrentRunScanContext"
+    },
+    {
+      "context_type": "RECONSTRUCT_OBJECT",
+      "class_name": "CurrentReconstructObjectContext",
+      "module_path": "applications.bolt.context_classes",
+      "description": "Context class CurrentReconstructObjectContext"
+    },
+    {
+      "context_type": "PLY_QUALITY_ASSESSMENT",
+      "class_name": "CurrentPlyQualityContext",
+      "module_path": "applications.bolt.context_classes",
+      "description": "Context class CurrentPlyQualityContext"
+    },
+    {
+      "context_type": "DISPLAY_OBJECT",
+      "class_name": "CurrentDisplayObjectContext",
+      "module_path": "applications.bolt.context_classes",
+      "description": "Context class CurrentDisplayObjectContext"
     }
   ],
   "metadata": {
-    "exported_at": "2025-08-12T20:55:19.639934",
+    "exported_at": "2025-09-05T14:08:23.546249",
     "registry_version": "1.0",
-    "total_capabilities": 7,
-    "total_context_types": 5
+    "total_capabilities": 12,
+    "total_context_types": 10
   }
 }

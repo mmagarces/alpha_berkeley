@@ -28,16 +28,15 @@ cd alpha_berkeley
 touch .env && cp env.example .env
 #In the .env file, grab a cborg API key here:
 # https://cborg.lbl.gov/api_request/
-
-#I
 ```
 
 ## Configuration File
 
 In the `config.yml` file, make sure you modify the project root to be where your alpha_berkeley is located, or as a result from pwd
 
-In src/framework/config.yml, these following lines have been modiifed to use cborg instead of ollama:
+In src/framework/config.yml, these following lines have been modified to use cborg instead of ollama:
 
+```yaml
 models:
     orchestrator:
       provider: cborg
@@ -68,9 +67,11 @@ models:
       provider: cborg
       model_id: google/gemini-flash
       max_tokens: 512
+```
 
 whereas the original was:
 
+```yaml
 models:
     orchestrator:
       provider: cborg
@@ -101,9 +102,8 @@ models:
       provider: ollama
       model_id: mistral:7b
       max_tokens: 512
+```
 
-```
-```
 ## Important Configuration Switch
 
 In `src/applications/bolt/bolt_api.py` at lines 68-70, you'll find FASTAPI_URL settings for both `host.docker.internal` and `localhost`:
@@ -111,7 +111,7 @@ In `src/applications/bolt/bolt_api.py` at lines 68-70, you'll find FASTAPI_URL s
 - **For CLI usage**: Use `localhost` and comment out `host.docker.internal`
 - **For WebUI usage**: Use `host.docker.internal` and comment out `localhost`
 
-## If you kepe getting -1.0 degree results
+## If you keep getting -1.0 degree results
 
 Run podman desktop and run the services (compose)
 

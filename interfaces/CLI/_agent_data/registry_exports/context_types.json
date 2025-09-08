@@ -18,15 +18,45 @@
     "description": "Context class PythonResultsContext"
   },
   {
-    "context_type": "CURRENT_ANGLE",
+    "context_type": "MOTOR_POSITION",
     "class_name": "CurrentAngleContext",
     "module_path": "applications.bolt.context_classes",
     "description": "Context class CurrentAngleContext"
   },
   {
-    "context_type": "MOVE_MOTOR",
+    "context_type": "MOTOR_MOVEMENT",
     "class_name": "CurrentMoveMotorContext",
     "module_path": "applications.bolt.context_classes",
     "description": "Context class CurrentMoveMotorContext"
+  },
+  {
+    "context_type": "DETECTOR_IMAGE",
+    "class_name": "CurrentTakeCaptureContext",
+    "module_path": "applications.bolt.context_classes",
+    "description": "Context class CurrentTakeCaptureContext"
+  },
+  {
+    "context_type": "PHOTOGRAMMETRY_SCAN",
+    "class_name": "CurrentRunScanContext",
+    "module_path": "applications.bolt.context_classes",
+    "description": "Context class CurrentRunScanContext"
+  },
+  {
+    "context_type": "RECONSTRUCT_OBJECT",
+    "class_name": "CurrentReconstructObjectContext",
+    "module_path": "applications.bolt.context_classes",
+    "description": "Context class CurrentReconstructObjectContext"
+  },
+  {
+    "context_type": "PLY_QUALITY_ASSESSMENT",
+    "class_name": "CurrentPlyQualityContext",
+    "module_path": "applications.bolt.context_classes",
+    "description": "Context class CurrentPlyQualityContext"
+  },
+  {
+    "context_type": "DISPLAY_OBJECT",
+    "class_name": "CurrentDisplayObjectContext",
+    "module_path": "applications.bolt.context_classes",
+    "description": "Context class CurrentDisplayObjectContext"
   }
 ]
