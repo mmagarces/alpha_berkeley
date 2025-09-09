@@ -236,8 +236,6 @@ class BoltAPI:
             product = json.loads(result.stdout)
             item_uid = (product["item"]["item_uid"])
 
-            print(item_uid)
-
             try:
                 current_pos = 0
                 while(current_pos != "run_list"):

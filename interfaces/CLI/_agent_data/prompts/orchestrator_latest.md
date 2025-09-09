@@ -1,8 +1,8 @@
 # PROMPT METADATA
-# Generated: 2025-09-05 14:09:03
+# Generated: 2025-09-08 14:55:27
 # Name: orchestrator
 # Builder: DefaultOrchestratorPromptBuilder
-# File: /home/general/Pictures/alpha_berkeley/interfaces/CLI/_agent_data/prompts/orchestrator_latest.md
+# File: /Users/magarces/agenticAI_bolt-main/version-control/bolt-3/alpha_berkeley/interfaces/CLI/_agent_data/prompts/orchestrator_latest.md
 # Latest Only: True
 
 
@@ -68,6 +68,42 @@ Never plan for simulated or fictional data - only real system operations.
    PlannedStep(
    )
    - Note: Data retrieved from MOTOR_POSITION, generated from Tiled. Use before motor movements or for status checks.
+
+
+## MemoryOperations
+
+**When to plan "memory" steps:**
+- When the user explicitly asks to save, store, or remember something for later
+- When the user asks to show, display, or view their saved memory
+- When the user explicitly mentions memory operations
+
+**IMPORTANT**: This capability has a VERY STRICT classifier. Only use when users 
+explicitly mention memory-related operations. Do NOT use for general information 
+storage or context management.
+
+**Step Structure:**
+- context_key: Unique identifier for output (e.g., "memory_save", "memory_display")
+- task_objective: The specific memory operation to perform
+
+**Output: MEMORY_CONTEXT**
+- Save operations: Contains saved content for response confirmation
+- Retrieve operations: Contains stored memory content for use by respond step
+- Available to downstream steps via context system
+
+Only plan this step when users explicitly request memory operations.
+
+
+**Example Step Planning:**
+
+1. **Saving important information to user memory**
+   PlannedStep(
+   )
+   - Note: Content is persisted to memory file and provided as MEMORY_CONTEXT context for response confirmation.
+
+2. **Displaying stored memory content**
+   PlannedStep(
+   )
+   - Note: Retrieves memory content as MEMORY_CONTEXT. Typically followed by respond step to present results to user.
 
 
 ## Clarify

@@ -1,8 +1,8 @@
 # PROMPT METADATA
-# Generated: 2025-09-05 14:09:01
+# Generated: 2025-09-08 14:55:26
 # Name: classification
 # Builder: DefaultClassificationPromptBuilder
-# File: /home/general/Pictures/alpha_berkeley/interfaces/CLI/_agent_data/prompts/classification_latest.md
+# File: /Users/magarces/agenticAI_bolt-main/version-control/bolt-3/alpha_berkeley/interfaces/CLI/_agent_data/prompts/classification_latest.md
 # Latest Only: True
 
 
@@ -24,14 +24,14 @@ BOLT CONTEXT: This is a beamline where area detectors capture images for analysi
 - Alignment verification images
 
 Examples:
-  - User Query: "Display object in file" -> Expected Output: True -> Reason: Direct request for image capture.
-  - User Query: "Display object" -> Expected Output: True -> Reason: Request for single image capture.
-  - User Query: "Show me the previous image" -> Expected Output: False -> Reason: Request for historical data, not new image capture.
-  - User Query: "Move the motor to 45 degrees" -> Expected Output: False -> Reason: This is a motor movement command, not image capture.
-  - User Query: "Display object" -> Expected Output: True -> Reason: Request for test image before experiments.
-  - User Query: "Get an image of the sample" -> Expected Output: True -> Reason: Request to capture sample image.
-  - User Query: "What tools do you have?" -> Expected Output: False -> Reason: Request is for tool information, not image capture.
-  - User Query: "What is the current motor position?" -> Expected Output: False -> Reason: This is a position read request, not image capture.
-  - User Query: "Start a photogrammetry scan" -> Expected Output: False -> Reason: This is a full scan request, not single image capture.
-  - User Query: "Check beam alignment with an image" -> Expected Output: True -> Reason: Request for alignment verification image.
   - User Query: "Display object" -> Expected Output: True -> Reason: Request to capture detector image.
+  - User Query: "Check beam alignment with an image" -> Expected Output: True -> Reason: Request for alignment verification image.
+  - User Query: "What tools do you have?" -> Expected Output: False -> Reason: Request is for tool information, not image capture.
+  - User Query: "Display object" -> Expected Output: True -> Reason: Request for test image before experiments.
+  - User Query: "Display object" -> Expected Output: True -> Reason: Request for single image capture.
+  - User Query: "Start a photogrammetry scan" -> Expected Output: False -> Reason: This is a full scan request, not single image capture.
+  - User Query: "Show me the previous image" -> Expected Output: False -> Reason: Request for historical data, not new image capture.
+  - User Query: "What is the current motor position?" -> Expected Output: False -> Reason: This is a position read request, not image capture.
+  - User Query: "Get an image of the sample" -> Expected Output: True -> Reason: Request to capture sample image.
+  - User Query: "Move the motor to 45 degrees" -> Expected Output: False -> Reason: This is a motor movement command, not image capture.
+  - User Query: "Display object in file" -> Expected Output: True -> Reason: Direct request for image capture.
