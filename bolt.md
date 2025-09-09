@@ -12,7 +12,6 @@ ssh -N -L 8000:localhost:8000 user@128.3.117.8
 # Terminal 2 - Queue server port forwarding  
 ssh -N -L 8003:localhost:60610 user@128.3.117.8
 # Password: xray$1300
-
 ```
 
 ## Project Setup
