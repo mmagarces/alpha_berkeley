@@ -182,8 +182,7 @@ class BoltAPI:
                 timestamp=datetime.now()
             )
             
-        
-
+    
     def execute_bluesky_plan(self, api_call: str) -> CurrentBlueskyPlanReading:
         """Execute a Bluesky plan using the provided API call structure."""
         try:
@@ -243,6 +242,7 @@ class BoltAPI:
                             ]   
                             result = subprocess.run(cmd, capture_output=True, text=True)
                             history_data = json.loads(result.stdout)
+                            print(count)
                             for item in history_data:
                                 check = item
                     
@@ -260,7 +260,7 @@ class BoltAPI:
                                     count += 3
                                     break
                                 previous_run_list_uid = current_run_list_uid
-                            elif check == "run_list_uid" and api_call["item"]["name"] == "camera_acquire":
+                            elif check == "run_list" and api_call["item"]["name"] == "camera_acquire":
                                 count += 1.5
                             time.sleep(1)
                         print("Run finished, processing...")
