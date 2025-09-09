@@ -13,10 +13,6 @@ ssh -N -L 8000:localhost:8000 user@128.3.117.8
 ssh -N -L 8003:localhost:60610 user@128.3.117.8
 # Password: xray$1300
 
-#This will vary depending on your system, but wherever you install the bolt-api call, perform the following
-pip install config
-uvicorn server:app --host 127.0.0.1 --port 8004 --reload
-#server in this case is what I named my file (server.py in my case), so this can be modified to your liking
 ```
 
 ## Project Setup
@@ -33,7 +29,11 @@ touch .env && cp env.example .env
 #In the .env file, grab a cborg API key here:
 # https://cborg.lbl.gov/api_request/
 
-#I
+#When running alpha using the webUI, you will need to set this up in a separate terminal:
+cd alpha_berkeley
+pip install config
+uvicorn server:app --host 127.0.0.1 --port 8004 --reload
+#server in this case is what I named my file (server.py in my case), so this can be modified to your liking
 ```
 
 ## Configuration File
