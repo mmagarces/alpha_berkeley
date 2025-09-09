@@ -260,8 +260,8 @@ class BoltAPI:
                                     count += 3
                                     break
                                 previous_run_list_uid = current_run_list_uid
-                            elif check == "run_list" and api_call["item"]["name"] == "camera_acquire":
-                                count += 1.5
+                            elif (len(history_data["run_list"]) == 0) and api_call["item"]["name"] == "camera_acquire":
+                                count += 1.0
                             time.sleep(1)
                         print("Run finished, processing...")
                     

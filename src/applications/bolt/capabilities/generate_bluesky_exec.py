@@ -158,32 +158,42 @@ BOLT CONTEXT: This is a beamline where Bluesky plans control motors, detectors, 
 - Experimental measurements""",
             examples=[
                 ClassifierExample(
-                    query="Move the motor to 45 degrees",
+                    query="Execute a bluesky plan to move the motor to 45 degrees",
                     result=True,
                     reason="Direct request for motor movement."
                 ),
                 ClassifierExample(
-                    query="Run a scan from 0 to 180 degrees",
+                    query="Execute a bleusky plan to run a scan from 0 to 180 degrees",
                     result=True,
                     reason="Request for rotation scan execution."
                 ),
                 ClassifierExample(
-                    query="Execute a camera acquisition",
+                    query="Execute a bluesky plan to capture an image",
                     result=True,
                     reason="Request for camera data collection."
                 ),
                 ClassifierExample(
-                    query="Take a measurement",
+                    query="Execute a bluesky plan to take a measurement",
                     result=True,
                     reason="Request for data collection plan."
                 ),
                 ClassifierExample(
-                    query="Position the sample at 90 degrees",
+                    query="Execute a bluesky plan to get the current motor position",
                     result=True,
                     reason="Request for motor positioning."
                 ),
                 ClassifierExample(
-                    query="Start a linear scan",
+                    query="Execute a bluesky plan to get the current angle",
+                    result=True,
+                    reason="Request for scanning operation."
+                ),
+                ClassifierExample(
+                    query="Execute a bluesky plan to display an object in file blank",
+                    result=True,
+                    reason="Request for motor positioning."
+                ),
+                ClassifierExample(
+                    query="Execute a bluesky plan to reconstruct an object from a folder",
                     result=True,
                     reason="Request for scanning operation."
                 ),

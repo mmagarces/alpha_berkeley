@@ -84,7 +84,7 @@ def generate_contextual_bluesky_plan(user_query: str):
                         count += 3
                         break
                     previous_run_list_uid = current_run_list_uid
-                elif check == "run_list_uid" and api_call["item"]["name"] == "camera_acquire":
+                elif (len(history_data["run_list"]) == 0) and api_call["item"]["name"] == "camera_acquire":
                     count += 1.5
                 time.sleep(1)
                 
