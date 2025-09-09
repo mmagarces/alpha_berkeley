@@ -75,9 +75,9 @@ class BoltAPI:
     """Motor configuration for BOLT beamline motors."""
 
     #For WebUI Use
-    #FASTAPI_URL = "host.docker.internal"
+    FASTAPI_URL = "host.docker.internal"
 
-    FASTAPI_URL = "localhost"
+    #FASTAPI_URL = "localhost"
     
     #Working with real data captured from tiled, with a delay to wait if the run is not complete
     def get_current_angle(self, motor: str) -> CurrentAngleReading:
@@ -402,7 +402,7 @@ class BoltAPI:
             except Exception as e:
                 print(f"Error: {e}")
 
-            link = f"http://localhost:8000/ui/browse/" + run_id  + "_"
+            link = f"http://localhost:8000/ui/browse/" + run_id  + "_" + " (IMPORTANT: URL must end with underscore right next to run_id)"
 
             return CurrentTakeCaptureReading(
                 condition="Remote Movement Succeeded",
