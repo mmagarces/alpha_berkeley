@@ -89,9 +89,9 @@ class BoltAPI:
     """Motor configuration for BOLT beamline motors."""
 
     #For WebUI Use
-    #FASTAPI_URL = "host.docker.internal"
+    FASTAPI_URL = "host.docker.internal"
 
-    FASTAPI_URL = "localhost"
+    #FASTAPI_URL = "localhost"
     
     def create_bluesky_plan(self, api_call: str) -> CurrentBlueskyPlanReading:
         """Create a Bluesky plan using the provided API call structure without executing it."""

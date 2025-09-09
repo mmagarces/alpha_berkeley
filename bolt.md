@@ -1,5 +1,45 @@
 # BOLT Setup Guide
 
+To initialize bolt, perform the following:
+
+Galil motor controller:
+```bash
+cd /opt/epics/modules/motorGalil/Galil-3-0/3-6/iocBoot/iocGalilTest/
+./st.cmd
+
+```
+
+Allied Vision Camera
+```bash
+cd /opt/epics/modules/synApps_6_1_epics7/support/areaDetector-R3-7 ADAravis/iocs/aravisIOC/iocBoot/iocAravis
+./st.cmd.AV_Alvium_1800
+```
+
+Qserver:
+```bash
+conda activate bluesky
+start-re-manager --zmq-publish-console ON --startup-dir /home/user/Repos/bluesky-web/queue-server/startup_bolt --keep-re
+```
+
+Qserver # 2:
+```bash
+cd home/user/Repos/BOLT/frontend
+npm run dev
+```
+
+Qserver Rest API:
+```bash
+conda activate bluesky
+QSERVER_HTTP_SERVER_SINGLE_USER_API_KEY=test QSERVER_HTTP_SERVER_ALLOW_ORIGINS=* uvicorn --host localhost --port 60610 bluesky_httpserver.server:app
+```
+
+Tiled Setup:
+```bash
+cd /home/user/tiledData
+conda activate bluesky
+tiled serve config config.yml
+```
+
 ## SSH Port Forwarding Setup
 
 Open 3 terminal windows and run the following commands:

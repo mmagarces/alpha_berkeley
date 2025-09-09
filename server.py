@@ -11,12 +11,11 @@ app = FastAPI()
 @app.get("/generate_contextual_bluesky_plan/{user_query}/")
 def generate_contextual_bluesky_plan(user_query: str):
     try:
-
         FASTAPI_URL = "localhost"
         # Run the generate_contextual_bluesky_plan.py script
-        script_path = os.path.join(os.path.dirname(__file__), "../bolt-5/alpha_berkeley/generate_contextual_bluesky_plan.py")
+        script_path = "generate_contextual_bluesky_plan.py"
         cmd = ["python", script_path, user_query]
-        result = subprocess.run(cmd, capture_output=True, text=True, cwd=os.path.dirname(script_path))
+        result = subprocess.run(cmd, capture_output=True, text=True)
         
         if result.returncode != 0:
             raise HTTPException(status_code=500, detail=f"Script failed: {result.stderr}")
