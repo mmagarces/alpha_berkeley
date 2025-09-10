@@ -2,38 +2,58 @@
 
 To initialize bolt, perform the following:
 
-Galil motor controller:
+## Galil motor controller:
+
+This window is for initializing the motor controller, but also serves as a way to see all of the available process variables using the command ```dbl```. Our main motor being used is DMC01:A, for the rotation motor.
+
+In a terminal window:
 ```bash
 cd /opt/epics/modules/motorGalil/Galil-3-0/3-6/iocBoot/iocGalilTest/
 ./st.cmd
-
 ```
 
-Allied Vision Camera
+## Allied Vision Camera
+
+This window is for intializing the detector, or the camera in this case. The camera is defined with multiple plug ins, but the main one is 13ARV1:cam1.
+
 ```bash
 cd /opt/epics/modules/synApps_6_1_epics7/support/areaDetector-R3-7 ADAravis/iocs/aravisIOC/iocBoot/iocAravis
 ./st.cmd.AV_Alvium_1800
 ```
+## Qserver:
 
-Qserver:
+This window should be run in the terminal after you have accessed bluesky-web, as shown below. This address is constant at Bolt, and is what contians the plans and devices avaiallbe at the beamline. If you would like to see these plans, please refer to bluesky-web/queueserver/startup_bolt.
+
 ```bash
+cd /home/user/Repos/bluesky-web
 conda activate bluesky
 start-re-manager --zmq-publish-console ON --startup-dir /home/user/Repos/bluesky-web/queue-server/startup_bolt --keep-re
 ```
 
-Qserver # 2:
+## Qserver # 2:
+
+This window is mainly to be used to run the GUI screen for the queue server. This is very useful as it describes the plans, shows you what goes into executing each plan, provides detail on plans results, etc.
+
+It is important to note this also gives you the runID and the 'fingerprint ID'. This is how I was able to do a majority of my work, since by checking the history for the fingerprint, I was able to find the corresponding runID. This let me access information on tiled afterwards, since due to TiledWriter's nature (will explain later), this is what each run's results was saved under.
+
 ```bash
 cd home/user/Repos/BOLT/frontend
 npm run dev
 ```
+## Qserver Rest API:
 
-Qserver Rest API:
+This window should be run on a terminal window. It describes the Qserver's Http side of things. It shows you the nature of the queue server constnatly checking it's history and getting items from the queue. It does this natively, and infinitely while the queue server runs. Most of them are GET requests, as it's just checking if the queue is busy and if there's anything being added to the queue. In this window, you can see when POST requests are made, which are used frequently due to my use of the API calls.
+
+Along with this window, if you go to your browser and access http://localhost:60610/docs, you can find all of the API calls available for this particular queue server (There might be other features in others, so I don't want to go ahead and say it is at every queue server.)
+
 ```bash
 conda activate bluesky
 QSERVER_HTTP_SERVER_SINGLE_USER_API_KEY=test QSERVER_HTTP_SERVER_ALLOW_ORIGINS=* uvicorn --host localhost --port 60610 bluesky_httpserver.server:app
 ```
+## Tiled Setup:
 
-Tiled Setup:
+At bolt, this is natively where I'm running everything. This is bound to change due to organization and such, but this call is always consistently working. Under ```/home/user/tiledData/tiled/deploy```, you will find a ```catalog.db``` file. I'm sure a SQL call would display things in an interesting way, but if you ever wish to clear Tiled, delete the ```catalog.db``` file from the system and restart the tiled service as described below.
+
 ```bash
 cd /home/user/tiledData
 conda activate bluesky
@@ -146,21 +166,10 @@ models:
       max_tokens: 512
 
 
-
-
-
 ### Important Configuration Switch
 
 In `src/applications/bolt/bolt_api.py` at lines 68-70, you'll find FASTAPI_URL settings for both `host.docker.internal` and `localhost`:
 
 - **For CLI usage**: Use `localhost` and comment out `host.docker.internal`
 - **For WebUI usage**: Use `host.docker.internal` and comment out `localhost`
-
-# If you kepe getting -1.0 degree results
-
-Run podman desktop and run the services (compose)
-
-In a terminal, run the following:
-
-podman exec -it pipelines pip install tiled entrypoints stamina
 
