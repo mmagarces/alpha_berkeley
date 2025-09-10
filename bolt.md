@@ -6,7 +6,7 @@ https://github.com/mmagarces/alpha_berkeley: The main repository for the agentic
 
 To initialize bolt, perform the following:
 
-(Refer to startup.txt @ Bolt under /home/user/Desktop for copy and pasting these codes if this repo is not opened at bolt)
+(Refer to BoltStartup.txt @ Bolt under /home/user/Desktop for copy and pasting these codes if this repo is not opened at bolt)
 
 Documentation that goes further into detail: https://docs.google.com/document/d/1XBpq92P732PNnJuFYnjbTMhZn32KQGPSj5dkhrcCjSw/edit?usp=sharing
 
