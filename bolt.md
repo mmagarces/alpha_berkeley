@@ -1,6 +1,6 @@
 # BOLT Setup Guide
 
-To initialize bolt, perform the following:
+To initialize bolt at the BOLT machine, perform the following:
 
 ## Galil motor controller:
 
@@ -64,8 +64,8 @@ tiled serve config config.yml
 
 Open 2 terminal windows and run the following commands:
 
- erminal 1 - Tiled port forwarding
 ```bash
+Terminal 1 - Tiled port forwarding
 ssh -N -L 8000:localhost:8000 user@128.3.117.8
 # Password: xray$1300
 ```
