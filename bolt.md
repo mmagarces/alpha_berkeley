@@ -60,18 +60,18 @@ conda activate bluesky
 tiled serve config config.yml
 ```
 
-
-
 ## SSH Port Forwarding Setup
 
-Open 3 terminal windows and run the following commands:
+Open 2 terminal windows and run the following commands:
 
+ erminal 1 - Tiled port forwarding
 ```bash
-# Terminal 1 - Tiled port forwarding
 ssh -N -L 8000:localhost:8000 user@128.3.117.8
 # Password: xray$1300
+```
 
-# Terminal 2 - Queue server port forwarding  
+```bash
+Terminal 2 - Queue server port forwarding  
 ssh -N -L 8003:localhost:60610 user@128.3.117.8
 # Password: xray$1300
 ```
@@ -83,13 +83,32 @@ ssh -N -L 8003:localhost:60610 user@128.3.117.8
 mkdir bolt && cd bolt
 git clone https://github.com/mmagarces/alpha_berkeley.git
 cd alpha_berkeley
+```
+## Create environment file
 
-# Create environment file
+For this, you will need a CBORG API key, which can be found here (if you don't already have one): https://cborg.lbl.gov/api_request/. Once here, click continue to CBORG API Key Manager, and proceed with your LBL google login. Once you have copied your key, paste it into CBORG_API_KEY=(YOUR KEY GOES HERE)
 
+```bash
 touch .env && cp env.example .env
-#In the .env file, grab a cborg API key here:
-# https://cborg.lbl.gov/api_request/
+```
 
+It is important to note you may receive some errors due to the following in the .env file:
+
+NO_PROXY=no-proxy-list
+HTTP_PROXY=http-proxy
+
+I have found 2 solutions to this:
+1) Deleting these lines seems to solve the issue for some systems
+
+2) Another solution is:
+
+Modify the lines to NO_PROXY='localhost,127.0.0.1' and HTTP_PROXY='localhost,127.0.0.1', and run the following in the terminal:
+
+```bash
+python -c "import os; [os.environ.pop(v, None) for v in ['HTTP_PROXY','HTTPS_PROXY','http_proxy','https_proxy']]"
+```
+
+```bash
 #When running alpha using the webUI, you will need to set this up in a separate terminal:
 cd alpha_berkeley
 pip install config
