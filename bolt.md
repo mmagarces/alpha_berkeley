@@ -62,14 +62,16 @@ tiled serve config config.yml
 
 ## SSH Port Forwarding Setup
 
-Open 3 terminal windows and run the following commands:
+Open 2 terminal windows and run the following commands:
 
+ erminal 1 - Tiled port forwarding
 ```bash
-# Terminal 1 - Tiled port forwarding
 ssh -N -L 8000:localhost:8000 user@128.3.117.8
 # Password: xray$1300
+```
 
-# Terminal 2 - Queue server port forwarding  
+```bash
+Terminal 2 - Queue server port forwarding  
 ssh -N -L 8003:localhost:60610 user@128.3.117.8
 # Password: xray$1300
 ```
@@ -81,24 +83,18 @@ ssh -N -L 8003:localhost:60610 user@128.3.117.8
 mkdir bolt && cd bolt
 git clone https://github.com/mmagarces/alpha_berkeley.git
 cd alpha_berkeley
+```
+## Create environment file
 
-# Create environment file
-
+For this, you will need a CBORG API key, which can be found here (if you don't already have one): https://cborg.lbl.gov/api_request/. Once here, click continue to CBORG API Key Manager, and proceed with your LBL google login. If 
+```bash
 touch .env && cp env.example .env
 #In the .env file, grab a cborg API key here:
-# https://cborg.lbl.gov/api_request/
-
-#When running alpha using the webUI, you will need to set this up in a separate terminal:
-cd alpha_berkeley
-pip install config
-uvicorn server:app --host 127.0.0.1 --port 8004 --reload
-#server in this case is what I named my file (server.py in my case), so this can be modified to your liking
 ```
 
 ## Configuration File
 
 In the `config.yml` file, make sure you modify the project root to be where your alpha_berkeley is located, or as a result from pwd
-
 In src/framework/config.yml, these following lines have been modiifed to use cborg instead of ollama:
 
 models:
