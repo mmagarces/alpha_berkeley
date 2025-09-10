@@ -1,8 +1,12 @@
 # BOLT Setup Guide
 
-To initialize bolt at the BOLT machine, perform the following:
+https://github.com/als-computing/BOLT: contains the python executables used at BOLT, and the tiledData files at bolt. 
 
-Refer to startup.txt @ Bolt under /home/user/Desktop for copy and pasting these codes if this repo is not opened at bolt
+https://github.com/mmagarces/alpha_berkeley: The main repository for the agentic AI logic using the alpha_berkeley logic.
+
+To initialize bolt, perform the following:
+
+(Refer to startup.txt @ Bolt under /home/user/Desktop for copy and pasting these codes if this repo is not opened at bolt)
 
 ## Galil motor controller:
 
@@ -18,7 +22,6 @@ cd /opt/epics/modules/motorGalil/Galil-3-0/3-6/iocBoot/iocGalilTest/
 
 This window is for intializing the detector, or the camera in this case. The camera is defined with multiple plug ins, but the main one is 13ARV1:cam1.
 
-In a terminal window:
 ```bash
 cd /opt/epics/modules/synApps_6_1_epics7/support/areaDetector-R3-7 ADAravis/iocs/aravisIOC/iocBoot/iocAravis
 ./st.cmd.AV_Alvium_1800
@@ -27,7 +30,6 @@ cd /opt/epics/modules/synApps_6_1_epics7/support/areaDetector-R3-7 ADAravis/iocs
 
 This window should be run in the terminal after you have accessed bluesky-web, as shown below. This address is constant at Bolt, and is what contians the plans and devices avaiallbe at the beamline. If you would like to see these plans, please refer to bluesky-web/queueserver/startup_bolt.
 
-In a visual studio window:
 ```bash
 cd /home/user/Repos/bluesky-web
 conda activate bluesky
@@ -40,7 +42,6 @@ This window is mainly to be used to run the GUI screen for the queue server. Thi
 
 It is important to note this also gives you the runID and the 'fingerprint ID'. This is how I was able to do a majority of my work, since by checking the history for the fingerprint, I was able to find the corresponding runID. This let me access information on tiled afterwards, since due to TiledWriter's nature (will explain later), this is what each run's results was saved under.
 
-In a visual studio window:
 ```bash
 cd home/user/Repos/BOLT/frontend
 npm run dev
@@ -51,7 +52,6 @@ This window should be run on a terminal window. It describes the Qserver's Http 
 
 Along with this window, if you go to your browser and access http://localhost:60610/docs, you can find all of the API calls available for this particular queue server (There might be other features in others, so I don't want to go ahead and say it is at every queue server.)
 
-In a terminal window:
 ```bash
 conda activate bluesky
 QSERVER_HTTP_SERVER_SINGLE_USER_API_KEY=test QSERVER_HTTP_SERVER_ALLOW_ORIGINS=* uvicorn --host localhost --port 60610 bluesky_httpserver.server:app
@@ -60,7 +60,6 @@ QSERVER_HTTP_SERVER_SINGLE_USER_API_KEY=test QSERVER_HTTP_SERVER_ALLOW_ORIGINS=*
 
 At bolt, this is natively where I'm running everything. This is bound to change due to organization and such, but this call is always consistently working. Under ```/home/user/tiledData/tiled/deploy```, you will find a ```catalog.db``` file. I'm sure a SQL call would display things in an interesting way, but if you ever wish to clear Tiled, delete the ```catalog.db``` file from the system and restart the tiled service as described below.
 
-In a visual studio window:
 ```bash
 cd /home/user/tiledData
 conda activate bluesky
