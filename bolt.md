@@ -1,5 +1,9 @@
 # BOLT Setup Guide
 
+https://github.com/als-computing/BOLT: contains the python executables used at BOLT, and the tiledData files at bolt. 
+
+https://github.com/mmagarces/alpha_berkeley: The main repository for the agentic AI logic using the alpha_berkeley logic.
+
 To initialize bolt, perform the following:
 
 ## Galil motor controller:
