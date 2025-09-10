@@ -20,6 +20,8 @@ cd /opt/epics/modules/motorGalil/Galil-3-0/3-6/iocBoot/iocGalilTest/
 ./st.cmd
 ```
 
+You should know this works when 'epics>' is written at the bottom of the terminal
+
 ## Allied Vision Camera
 
 This window is for intializing the detector, or the camera in this case. The camera is defined with multiple plug ins, but the main one is 13ARV1:cam1.
@@ -29,6 +31,12 @@ In a terminal window:
 cd /opt/epics/modules/synApps_6_1_epics7/support/areaDetector-R3-7 ADAravis/iocs/aravisIOC/iocBoot/iocAravis
 ./st.cmd.AV_Alvium_1800
 ```
+
+You should know this works when the last sentence is "auto_settings.sav 2348 of 2349 PV's connected"
+
+If this isn't the case, and you first run using the detector results in something else, deactivate the camera, unplug it from the laptop here at bolt, and then replug and rerun the camera.
+
+It is common to see messages such as ADAravis::newBufferCallback bad frame status: Image>bufSize, as this is an issue with bolt we have had for a while. When running camera acquire functions through the queue server, you can see these messges popping up in real time.
 
 ## Tiled Setup:
 
@@ -41,6 +49,8 @@ conda activate bluesky
 tiled serve config config.yml
 ```
 
+You should know this works when you have connection to tiled via localhost:8000, click the try it button, and it works!
+
 ## Qserver:
 
 This window should be run in the terminal after you have accessed bluesky-web, as shown below. This address is constant at Bolt, and is what contians the plans and devices avaiallbe at the beamline. If you would like to see these plans, please refer to bluesky-web/queueserver/startup_bolt.
@@ -51,6 +61,22 @@ cd /home/user/Repos/bluesky-web
 conda activate bluesky
 start-re-manager --zmq-publish-console ON --startup-dir /home/user/Repos/bluesky-web/queue-server/startup_bolt --keep-re
 ```
+
+This will work once everything is set up, but for now you should see a message that says "ZeroMQ server is waiting on tcp://*:60615"
+
+## Qserver Rest API:
+
+This window should be run on a terminal window. It describes the Qserver's Http side of things. It shows you the nature of the queue server constnatly checking it's history and getting items from the queue. It does this natively, and infinitely while the queue server runs. Most of them are GET requests, as it's just checking if the queue is busy and if there's anything being added to the queue. In this window, you can see when POST requests are made, which are used frequently due to my use of the API calls.
+
+Along with this window, if you go to your browser and access http://localhost:60610/docs, you can find all of the API calls available for this particular queue server (There might be other features in others, so I don't want to go ahead and say it is at every queue server.)
+
+In a terminal window:
+```bash
+conda activate bluesky
+QSERVER_HTTP_SERVER_SINGLE_USER_API_KEY=test QSERVER_HTTP_SERVER_ALLOW_ORIGINS=* uvicorn --host localhost --port 60610 bluesky_httpserver.server:app
+```
+
+You should know this works when you see a terminal window that says Uvicorn runnng on http://localhost:60610 (Press CTRL+C to quit), and you should be able to access http://localhost:60610/docs
 
 ## Qserver # 2:
 
@@ -63,17 +89,8 @@ In a Visual Stuido Code window:
 cd home/user/Repos/BOLT/frontend
 npm run dev
 ```
-## Qserver Rest API:
 
-This window should be run on a terminal window. It describes the Qserver's Http side of things. It shows you the nature of the queue server constnatly checking it's history and getting items from the queue. It does this natively, and infinitely while the queue server runs. Most of them are GET requests, as it's just checking if the queue is busy and if there's anything being added to the queue. In this window, you can see when POST requests are made, which are used frequently due to my use of the API calls.
-
-Along with this window, if you go to your browser and access http://localhost:60610/docs, you can find all of the API calls available for this particular queue server (There might be other features in others, so I don't want to go ahead and say it is at every queue server.)
-
-In a terminal window:
-```bash
-conda activate bluesky
-QSERVER_HTTP_SERVER_SINGLE_USER_API_KEY=test QSERVER_HTTP_SERVER_ALLOW_ORIGINS=* uvicorn --host localhost --port 60610 bluesky_httpserver.server:app
-```
+You should know this works when it says "Vite v6.3.4  ready in (Some amount of time)", and you can safely access the GUI via localhost:5173/qserver, click ok, and the previous window for the start-re-manager says at the end "Worker started succesfully", and the previous terminal window for the Qserver rest API is now infinitely generating GET statements for both the /api/queue/get and /api/history/get
 ## SSH Port Forwarding Setup
 
 Open 2 terminal windows and run the following commands:
