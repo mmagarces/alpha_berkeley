@@ -86,10 +86,16 @@ cd alpha_berkeley
 ```
 ## Create environment file
 
-For this, you will need a CBORG API key, which can be found here (if you don't already have one): https://cborg.lbl.gov/api_request/. Once here, click continue to CBORG API Key Manager, and proceed with your LBL google login. If 
+For this, you will need a CBORG API key, which can be found here (if you don't already have one): https://cborg.lbl.gov/api_request/. Once here, click continue to CBORG API Key Manager, and proceed with your LBL google login. Once you have copied your key, paste it into CBORG_API_KEY=(YOUR KEY GOES HERE)
+
+It is important to note you may receive some errors due to the following in the .env file:
+
+NO_PROXY=no-proxy-list
+HTTP_PROXY=http-proxy
+
+
 ```bash
 touch .env && cp env.example .env
-#In the .env file, grab a cborg API key here:
 ```
 
 ## Configuration File
