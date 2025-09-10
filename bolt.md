@@ -8,6 +8,8 @@ To initialize bolt, perform the following:
 
 (Refer to startup.txt @ Bolt under /home/user/Desktop for copy and pasting these codes if this repo is not opened at bolt)
 
+Documentation that goes further into detail: https://docs.google.com/document/d/1XBpq92P732PNnJuFYnjbTMhZn32KQGPSj5dkhrcCjSw/edit?usp=sharing
+
 ## Galil motor controller:
 
 This window is for initializing the motor controller, but also serves as a way to see all of the available process variables using the command ```dbl```. Our main motor being used is DMC01:A, for the rotation motor.
@@ -27,11 +29,23 @@ In a terminal window:
 cd /opt/epics/modules/synApps_6_1_epics7/support/areaDetector-R3-7 ADAravis/iocs/aravisIOC/iocBoot/iocAravis
 ./st.cmd.AV_Alvium_1800
 ```
+
+## Tiled Setup:
+
+At bolt, this is natively where I'm running everything. This is bound to change due to organization and such, but this call is always consistently working. Under ```/home/user/tiledData/tiled/deploy```, you will find a ```catalog.db``` file. I'm sure a SQL call would display things in an interesting way, but if you ever wish to clear Tiled, delete the ```catalog.db``` file from the system and restart the tiled service as described below.
+
+In a Visual Stuido Code window:
+```bash
+cd /home/user/tiledData
+conda activate bluesky
+tiled serve config config.yml
+```
+
 ## Qserver:
 
 This window should be run in the terminal after you have accessed bluesky-web, as shown below. This address is constant at Bolt, and is what contians the plans and devices avaiallbe at the beamline. If you would like to see these plans, please refer to bluesky-web/queueserver/startup_bolt.
 
-In a visual studio window:
+In a Visual Stuido Code window:
 ```bash
 cd /home/user/Repos/bluesky-web
 conda activate bluesky
@@ -44,7 +58,7 @@ This window is mainly to be used to run the GUI screen for the queue server. Thi
 
 It is important to note this also gives you the runID and the 'fingerprint ID'. This is how I was able to do a majority of my work, since by checking the history for the fingerprint, I was able to find the corresponding runID. This let me access information on tiled afterwards, since due to TiledWriter's nature (will explain later), this is what each run's results was saved under.
 
-In a visual studio window:
+In a Visual Stuido Code window:
 ```bash
 cd home/user/Repos/BOLT/frontend
 npm run dev
@@ -60,17 +74,6 @@ In a terminal window:
 conda activate bluesky
 QSERVER_HTTP_SERVER_SINGLE_USER_API_KEY=test QSERVER_HTTP_SERVER_ALLOW_ORIGINS=* uvicorn --host localhost --port 60610 bluesky_httpserver.server:app
 ```
-## Tiled Setup:
-
-At bolt, this is natively where I'm running everything. This is bound to change due to organization and such, but this call is always consistently working. Under ```/home/user/tiledData/tiled/deploy```, you will find a ```catalog.db``` file. I'm sure a SQL call would display things in an interesting way, but if you ever wish to clear Tiled, delete the ```catalog.db``` file from the system and restart the tiled service as described below.
-
-In a visual studio window:
-```bash
-cd /home/user/tiledData
-conda activate bluesky
-tiled serve config config.yml
-```
-
 ## SSH Port Forwarding Setup
 
 Open 2 terminal windows and run the following commands:
