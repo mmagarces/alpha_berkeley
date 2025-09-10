@@ -127,6 +127,7 @@ python -c "import os; [os.environ.pop(v, None) for v in ['HTTP_PROXY','HTTPS_PRO
 In the `config.yml` file, make sure you modify the project root to be where your alpha_berkeley is located, or as a result from pwd
 In src/framework/config.yml, these following lines have been modiifed to use cborg instead of ollama:
 
+``` bash
 models:
     orchestrator:
       provider: cborg
@@ -157,9 +158,11 @@ models:
       provider: cborg
       model_id: google/gemini-flash
       max_tokens: 512
+```
 
-whereas the original was:
+Whereas the original was:
 
+``` bash
 models:
     orchestrator:
       provider: cborg
@@ -190,7 +193,7 @@ models:
       provider: ollama
       model_id: mistral:7b
       max_tokens: 512
-
+```
 
 ### Important Configuration Switch
 
