@@ -1,17 +1,18 @@
 # BOLT Setup Guide
 
-https://github.com/als-computing/BOLT: contains the python executables used at BOLT, and the tiledData files at bolt. 
+If you have any questions, email me at manuel.garces971@gmail.com
+
+https://github.com/als-computing/BOLT: contains the python executables and the tiled files at bolt. 
 
 https://github.com/mmagarces/alpha_berkeley: The main repository for the agentic AI logic using the alpha_berkeley logic.
 
-To initialize bolt, perform the following:
+https://docs.google.com/document/d/1XBpq92P732PNnJuFYnjbTMhZn32KQGPSj5dkhrcCjSw/edit?usp=sharing: Documentation that goes further into detail
+
+https://it.lbl.gov/service/networking/wireless/ : Guide to connecting to bolt, since you must be under **lbnl-employee** wifi in order for the SSH port forwarding, addressed later, to work out.
 
 (Refer to BoltStartup.txt @ Bolt under /home/user/Desktop for copy and pasting these codes if this repo is not opened at bolt)
 
-Documentation that goes further into detail: https://docs.google.com/document/d/1XBpq92P732PNnJuFYnjbTMhZn32KQGPSj5dkhrcCjSw/edit?usp=sharing
-
-You must be under lbl-employee wifi in order for the SSH port forwarding, addressed later, to work out.
-Here's a guide to connecting: https://it.lbl.gov/service/networking/wireless/
+To initialize bolt, perform the following:
 
 ## Galil motor controller:
 
@@ -43,7 +44,11 @@ It is common to see messages such as ADAravis::newBufferCallback bad frame statu
 
 ## EPICS testing
 
+<<<<<<< HEAD
 Open a new terminal window, where you are now all set!
+=======
+Open a new terminal window, and you're all set! The EPICS environment is available throughout the system. However,
+>>>>>>> 8d2c189060f58c76ecaf3018c9e4fabbbb417089
 
 You can use 'caput' and 'caget' values, which are pretty self explanatory.
 
@@ -70,7 +75,7 @@ You should know this works when you have connection to tiled via localhost:8000,
 
 ## Qserver:
 
-This window should be run in the terminal after you have accessed bluesky-web, as shown below. This address is constant at Bolt, and is what contians the plans and devices avaiallbe at the beamline. If you would like to see these plans, please refer to bluesky-web/queueserver/startup_bolt.
+This window should be run in the terminal after you have accessed bluesky-web, as shown below. This address is constant at Bolt, and is what contians the plans and devices avaiallbe at the beamline. If you would like to see these plans, please refer to bluesky-web/queue-server/startup_bolt.
 
 In a Visual Stuido Code window:
 ```bash
