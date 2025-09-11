@@ -10,6 +10,9 @@ To initialize bolt, perform the following:
 
 Documentation that goes further into detail: https://docs.google.com/document/d/1XBpq92P732PNnJuFYnjbTMhZn32KQGPSj5dkhrcCjSw/edit?usp=sharing
 
+You must be under lbl-employee wifi in orderf for the SSH port forwarding, addressed later, to work out.
+Here's a guide to connecting: https://it.lbl.gov/service/networking/wireless/
+
 ## Galil motor controller:
 
 This window is for initializing the motor controller, but also serves as a way to see all of the available process variables using the command ```dbl```. Our main motor being used is DMC01:A, for the rotation motor.
