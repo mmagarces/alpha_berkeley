@@ -56,6 +56,11 @@ class ReconstructObjectCapability(BaseCapability):
                 match_folder = re.search(r"in folder\s+([^\s]+)", query)
                 if match_folder:
                     input_folder = match_folder.group(1)
+            elif "folder" in query:
+                # Extract text after "in folder"
+                match_folder = re.search(r"folder\s+([^\s]+)", query)
+                if match_folder:
+                    input_folder = match_folder.group(1)
             elif "in " in query:
                 # Extract text after "in " (for "reconstruct object in BLANK")
                 match_folder = re.search(r"in\s+([^\s]+)", query)

@@ -5,7 +5,7 @@ build_dir: ./build
 
 # Root directory (absolute path)
 # If you operate on local and remote machines, recommended to use environment variable
-project_root: /Users/magarces/agenticAI_bolt-main/version-control/bolt-3/alpha_berkeley/
+project_root: /Users/magarces/agenticAI_bolt-main/version-control/bolt-3/alpha_berkeley
 
 
 # Application Configuration (paths are derived by convention)

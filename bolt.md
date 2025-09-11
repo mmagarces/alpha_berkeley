@@ -41,6 +41,20 @@ If this isn't the case, and you first run using the detector results in somethin
 
 It is common to see messages such as ADAravis::newBufferCallback bad frame status: Image>bufSize, as this is an issue with bolt we have had for a while. When running camera acquire functions through the queue server, you can see these messges popping up in real time.
 
+## EPICS testing
+
+Open a new terminal window, where you are now all set!
+
+You can use 'caput' and 'caget' values, which are pretty self explanatory.
+
+If you wish to test if this is working, perform the following command:
+
+```bash
+caput DMC01:A 128
+```
+
+This puts a value into the rotation motor PV. With this motor in partiular, 360 degreees is equivalent to 128 in this case, so a 180 degree rotation would be 64 for example.
+
 ## Tiled Setup:
 
 At bolt, this is natively where I'm running everything. This is bound to change due to organization and such, but this call is always consistently working. Under ```/home/user/tiledData/tiled/deploy```, you will find a ```catalog.db``` file. I'm sure a SQL call would display things in an interesting way, but if you ever wish to clear Tiled, delete the ```catalog.db``` file from the system and restart the tiled service as described below.

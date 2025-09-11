@@ -594,7 +594,7 @@ class BoltAPI:
                 print(f"Error: {e}")
 
             return CurrentReconstructObjectReading(
-                condition="Remote Reconstruction Completed",
+                condition="Remote Reconstruction Completed" + "Stored at : http://localhost/ui/browse/" + run_id ,
                 timestamp=datetime.now()
             )
         except Exception as e:
