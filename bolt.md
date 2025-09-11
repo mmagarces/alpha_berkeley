@@ -1,5 +1,7 @@
 # BOLT Setup Guide
 
+If you have any questions, email me at manuel.garces971@gmail.com
+
 https://github.com/als-computing/BOLT: contains the python executables and the tiled files at bolt. 
 
 https://github.com/mmagarces/alpha_berkeley: The main repository for the agentic AI logic using the alpha_berkeley logic.
