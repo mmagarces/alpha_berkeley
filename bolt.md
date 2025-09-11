@@ -1,6 +1,6 @@
 # BOLT Setup Guide
 
-https://github.com/als-computing/BOLT: contains the python executables and the tiledData files at bolt. 
+https://github.com/als-computing/BOLT: contains the python executables and the tiled files at bolt. 
 
 https://github.com/mmagarces/alpha_berkeley: The main repository for the agentic AI logic using the alpha_berkeley logic.
 
