@@ -6,7 +6,7 @@ https://github.com/mmagarces/alpha_berkeley: The main repository for the agentic
 
 https://docs.google.com/document/d/1XBpq92P732PNnJuFYnjbTMhZn32KQGPSj5dkhrcCjSw/edit?usp=sharing: Documentation that goes further into detail
 
-https://it.lbl.gov/service/networking/wireless/ : Guide to connecting to bolt, since you must be under lbl-employee wifi in order for the SSH port forwarding, addressed later, to work out.
+https://it.lbl.gov/service/networking/wireless/ : Guide to connecting to bolt, since you must be under **lbl-employee** wifi in order for the SSH port forwarding, addressed later, to work out.
 
 (Refer to BoltStartup.txt @ Bolt under /home/user/Desktop for copy and pasting these codes if this repo is not opened at bolt)
 
