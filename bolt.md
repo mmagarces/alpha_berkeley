@@ -66,7 +66,7 @@ conda activate bluesky
 tiled serve config config.yml
 ```
 
-You should know this works when you have connection to tiled via localhost:8000, click the try it button, and it works!
+You should know this works when you have connection to tiled via http://localhost:8000, click the try it button, and it works!
 
 ## Qserver:
 
