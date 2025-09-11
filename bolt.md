@@ -10,7 +10,7 @@ To initialize bolt, perform the following:
 
 Documentation that goes further into detail: https://docs.google.com/document/d/1XBpq92P732PNnJuFYnjbTMhZn32KQGPSj5dkhrcCjSw/edit?usp=sharing
 
-You must be under lbl-employee wifi in orderf for the SSH port forwarding, addressed later, to work out.
+You must be under lbl-employee wifi in order for the SSH port forwarding, addressed later, to work out.
 Here's a guide to connecting: https://it.lbl.gov/service/networking/wireless/
 
 ## Galil motor controller:
