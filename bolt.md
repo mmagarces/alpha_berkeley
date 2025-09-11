@@ -69,7 +69,7 @@ You should know this works when you have connection to tiled via localhost:8000,
 
 ## Qserver:
 
-This window should be run in the terminal after you have accessed bluesky-web, as shown below. This address is constant at Bolt, and is what contians the plans and devices avaiallbe at the beamline. If you would like to see these plans, please refer to bluesky-web/queueserver/startup_bolt.
+This window should be run in the terminal after you have accessed bluesky-web, as shown below. This address is constant at Bolt, and is what contians the plans and devices avaiallbe at the beamline. If you would like to see these plans, please refer to bluesky-web/queue-server/startup_bolt.
 
 In a Visual Stuido Code window:
 ```bash
