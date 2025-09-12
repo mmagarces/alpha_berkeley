@@ -72,7 +72,7 @@ tiled serve config config.yml
 
 You should know this works when you have connection to tiled via http://localhost:8000, click the try it button, and it works!
 
-## Qserver:
+## Qserver (Run engine enviornment):
 
 This window should be run in the terminal after you have accessed bluesky-web, as shown below. This address is constant at Bolt, and is what contians the plans and devices avaiallbe at the beamline. If you would like to see these plans, please refer to bluesky-web/queue-server/startup_bolt.
 
@@ -99,7 +99,7 @@ QSERVER_HTTP_SERVER_SINGLE_USER_API_KEY=test QSERVER_HTTP_SERVER_ALLOW_ORIGINS=*
 
 You should know this works when you see a terminal window that says Uvicorn runnng on http://localhost:60610 (Press CTRL+C to quit), and you should be able to access http://localhost:60610/docs
 
-## Qserver # 2:
+## Qserver Frontend:
 
 This window is mainly to be used to run the GUI screen for the queue server. This is very useful as it describes the plans, shows you what goes into executing each plan, provides detail on plans results, etc.
 
