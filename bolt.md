@@ -32,7 +32,7 @@ This window is for intializing the detector, or the camera in this case. The cam
 
 In a terminal window:
 ```bash
-cd /opt/epics/modules/synApps_6_1_epics7/support/areaDetector-R3-7 ADAravis/iocs/aravisIOC/iocBoot/iocAravis
+cd /opt/epics/modules/synApps_6_1_epics7/support/areaDetector-R3-7ADAravis/iocs/aravisIOC/iocBoot/iocAravis
 ./st.cmd.AV_Alvium_1800
 ```
 
@@ -64,7 +64,7 @@ This puts a value into the rotation motor PV. With this motor in partiular, 360 
 
 At bolt, this is natively where I'm running everything. This is bound to change due to organization and such, but this call is always consistently working. Under ```/home/user/tiledData/tiled/deploy```, you will find a ```catalog.db``` file. I'm sure a SQL call would display things in an interesting way, but if you ever wish to clear Tiled, delete the ```catalog.db``` file from the system and restart the tiled service as described below.
 
-In a Visual Stuido Code window:
+In a Visual Studio Code window:
 ```bash
 cd /home/user/tiledData
 conda activate bluesky
@@ -77,7 +77,7 @@ You should know this works when you have connection to tiled via localhost:8000,
 
 This window should be run in the terminal after you have accessed bluesky-web, as shown below. This address is constant at Bolt, and is what contians the plans and devices avaiallbe at the beamline. If you would like to see these plans, please refer to bluesky-web/queue-server/startup_bolt.
 
-In a Visual Stuido Code window:
+In a Visual Studio Code window:
 ```bash
 cd /home/user/Repos/bluesky-web
 conda activate bluesky
@@ -106,7 +106,7 @@ This window is mainly to be used to run the GUI screen for the queue server. Thi
 
 It is important to note this also gives you the runID and the 'fingerprint ID'. This is how I was able to do a majority of my work, since by checking the history for the fingerprint, I was able to find the corresponding runID. This let me access information on tiled afterwards, since due to TiledWriter's nature (will explain later), this is what each run's results was saved under.
 
-In a Visual Stuido Code window:
+In a Visual Studio Code window:
 ```bash
 cd home/user/Repos/BOLT/frontend
 npm run dev
