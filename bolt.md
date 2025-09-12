@@ -48,11 +48,7 @@ For 'Capture an image' or 'Take measurement' requests, this will be saved under 
 
 ## EPICS testing
 
-<<<<<<< HEAD
-Open a new terminal window, where you are now all set!
-=======
 Open a new terminal window, and you're all set! The EPICS environment is available throughout the system. However,
->>>>>>> 8d2c189060f58c76ecaf3018c9e4fabbbb417089
 
 You can use 'caput' and 'caget' values, which are pretty self explanatory.
 
