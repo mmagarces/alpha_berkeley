@@ -153,9 +153,7 @@ HTTP_PROXY=http-proxy
 I have found 2 solutions to this:
 1) Deleting these lines seems to solve the issue for some systems
 
-2) Another solution is:
-
-Modify the lines to NO_PROXY='localhost,127.0.0.1' and HTTP_PROXY='localhost,127.0.0.1', and run the following in the terminal:
+2) Another solution is: Modify the lines to NO_PROXY='localhost,127.0.0.1' and HTTP_PROXY='localhost,127.0.0.1', and run the following in the terminal:
 
 ```bash
 python -c "import os; [os.environ.pop(v, None) for v in ['HTTP_PROXY','HTTPS_PROXY','http_proxy','https_proxy']]"
