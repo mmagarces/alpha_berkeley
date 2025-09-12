@@ -19,7 +19,7 @@ To initialize bolt, perform the following:
 
 This window is for initializing the motor controller, but also serves as a way to see all of the available process variables using the command ```dbl```. Our main motor being used is DMC01:A, for the rotation motor.
 
-In a terminal window:
+In a Terminal window:
 ```bash
 cd /opt/epics/modules/motorGalil/Galil-3-0/3-6/iocBoot/iocGalilTest/
 ./st.cmd
@@ -31,7 +31,7 @@ You should know this works when 'epics>' is written at the bottom of the termina
 
 This window is for intializing the detector, or the camera in this case. The camera is defined with multiple plug ins, but the main one is 13ARV1:cam1.
 
-In a terminal window:
+In a Terminal window:
 ```bash
 cd /opt/epics/modules/synApps_6_1_epics7/support/areaDetector-R3-7ADAravis/iocs/aravisIOC/iocBoot/iocAravis
 ./st.cmd.AV_Alvium_1800
@@ -47,12 +47,11 @@ When runninng scans or take measurement: For scans, whatever folder name you dec
 
 ## EPICS testing
 
-Open a new terminal window, and you're all set! The EPICS environment is available throughout the system. However,
+The EPICS environment is available throughout the system, so no special commands are needed to start things up. However,
 
 You can use 'caput' and 'caget' values, which are pretty self explanatory.
 
-If you wish to test if this is working, perform the following command:
-
+Open a Terminal window:
 ```bash
 caput DMC01:A 128
 ```
@@ -91,7 +90,7 @@ This window should be run on a terminal window. It describes the Qserver's Http 
 
 Along with this window, if you go to your browser and access http://localhost:60610/docs, you can find all of the API calls available for this particular queue server (There might be other features in others, so I don't want to go ahead and say it is at every queue server.)
 
-In a terminal window:
+In a Terminal window:
 ```bash
 conda activate bluesky
 QSERVER_HTTP_SERVER_SINGLE_USER_API_KEY=test QSERVER_HTTP_SERVER_ALLOW_ORIGINS=* uvicorn --host localhost --port 60610 bluesky_httpserver.server:app
