@@ -116,7 +116,7 @@ You should know this works when it says "Vite v6.3.4  ready in (Some amount of t
 
 Open 2 terminal windows and run the following commands:
 
- erminal 1 - Tiled port forwarding
+Terminal 1 - Tiled port forwarding
 ```bash
 ssh -N -L 8000:localhost:8000 user@128.3.117.8
 # Password: xray$1300
