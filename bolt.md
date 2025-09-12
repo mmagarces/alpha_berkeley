@@ -42,6 +42,10 @@ If this isn't the case, and you first run using the detector results in somethin
 
 It is common to see messages such as ADAravis::newBufferCallback bad frame status: Image>bufSize, as this is an issue with bolt we have had for a while. When running camera acquire functions through the queue server, you can see these messges popping up in real time.
 
+**When runninng scans or take measurement**: 
+For scans, whatever folder name you decide to use, it will be saved under home/user/tmpData/AI_scan. 
+For 'Capture an image' or 'Take measurement' requests, this will be saved under home/user/tmpData/AI_scan/measurements.
+
 ## EPICS testing
 
 <<<<<<< HEAD
